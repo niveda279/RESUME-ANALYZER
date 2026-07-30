@@ -1,0 +1,21 @@
+{
+  "name": "careercast",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CareerCast - AI-Powered Resume Analyzer using Logistic Regression",
+  "scripts": {
+    "start:backend": "python backend/app.py",
+    "train:model": "python backend/train_model.py",
+    "start:frontend": "npm --prefix frontend run dev",
+    "install:all": "python -m pip install -r requirements.txt && npm --prefix frontend install"
+  },
+  "keywords": [
+    "resume-analyzer",
+    "logistic-regression",
+    "machine-learning",
+    "flask",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT"
+}
