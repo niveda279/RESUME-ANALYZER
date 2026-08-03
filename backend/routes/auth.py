@@ -68,7 +68,7 @@ def register():
     token = jwt.encode({
         'user_id': user['id'],
         'role': user['role'],
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7)
+        'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)
     }, SECRET_KEY, algorithm='HS256')
 
     return jsonify({
@@ -93,7 +93,7 @@ def login():
     token = jwt.encode({
         'user_id': user['id'],
         'role': user['role'],
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7)
+        'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)
     }, SECRET_KEY, algorithm='HS256')
 
     user_info = {
