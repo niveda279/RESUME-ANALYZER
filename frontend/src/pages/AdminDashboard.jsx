@@ -87,12 +87,6 @@ export default function AdminDashboard() {
               <a className="active" href="#overview">
                 <span className="bullet"></span> Overview
               </a>
-              <a href="#users">
-                <span className="bullet"></span> Users
-              </a>
-              <a href="#resumes">
-                <span className="bullet"></span> Resume Analyses
-              </a>
             </div>
           </div>
 
@@ -102,15 +96,6 @@ export default function AdminDashboard() {
               <div>
                 <h2>Admin Overview</h2>
                 <p>Platform activity and analysis summary</p>
-              </div>
-              <div className="search-box">
-                <span className="icon" style={{ fontSize: '12px', color: 'var(--muted)' }}>Search</span>
-                <input
-                  type="text"
-                  placeholder="Search users or files…"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
               </div>
             </div>
 

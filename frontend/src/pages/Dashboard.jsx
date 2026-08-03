@@ -84,20 +84,6 @@ export default function Dashboard({ user }) {
             <p className="lead">
               Upload your resume and receive an ATS score, strengths, weaknesses, keyword analysis, and recruiter-ready insights — in seconds.
             </p>
-            <div className="hero-meta">
-              <div className="stat">
-                <b>12,400+</b>
-                <span>Resumes Analyzed</span>
-              </div>
-              <div className="stat">
-                <b>88%</b>
-                <span>Avg. ATS Score Lift</span>
-              </div>
-              <div className="stat">
-                <b>4.9/5</b>
-                <span>Recruiter Rating</span>
-              </div>
-            </div>
           </div>
 
           <div>

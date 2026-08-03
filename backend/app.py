@@ -6,7 +6,7 @@ from routes.auth import auth_bp
 from routes.resume import resume_bp
 from routes.admin import admin_bp
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 
 # Config
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -37,6 +37,14 @@ def health_check():
 @app.errorhandler(413)
 def request_entity_too_large(error):
     return jsonify({'message': 'File size exceeds maximum limit of 10MB'}), 413
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return app.send_static_file(path)
+    else:
+        return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     # Initialize SQLite Database
