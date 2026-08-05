@@ -2,8 +2,12 @@ services:
   - type: web
     name: careercast-resume-analyzer
     env: python
-    buildCommand: "npm --prefix frontend install && npm --prefix frontend run build && python -m pip install -r requirements.txt && python backend/train_model.py"
-    startCommand: "gunicorn backend.app:app"
+    buildCommand: "pip install -r requirements.txt && python -m spacy download en_core_web_sm && npm --prefix frontend install && npm --prefix frontend run build"
+    startCommand: "gunicorn backend.app:app --bind 0.0.0.0:$PORT"
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production

@@ -46,8 +46,9 @@ def serve(path):
     else:
         return app.send_static_file('index.html')
 
+# Initialize SQLite Database (runs on module load — works with gunicorn too)
+init_db()
+
 if __name__ == '__main__':
-    # Initialize SQLite Database
-    init_db()
     print("Starting CareerCast Flask Backend on http://127.0.0.1:5000 ...")
     app.run(host='0.0.0.0', port=5000, debug=True)
