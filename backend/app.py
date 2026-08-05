@@ -1,4 +1,10 @@
 import os
+import sys
+
+# Ensure backend/ directory is always on Python's path,
+# regardless of where gunicorn/python is invoked from.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from utils.database import init_db
