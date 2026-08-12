@@ -4,7 +4,8 @@ from werkzeug.utils import secure_filename
 from routes.auth import token_required
 from utils.parser import extract_text_from_file, parse_resume_text
 from utils.feature_extractor import evaluate_flags
-from utils.ml_model import predict_career_role, get_model_metrics
+from utils.ml_model import predict_career_role, get_model_metrics, get_all_metrics
+from utils.ml_service import predict_all_models
 from models.resume import ResumeModel
 
 resume_bp = Blueprint('resume', __name__)
@@ -51,9 +52,14 @@ def upload_resume(current_user):
         # 3. Dynamic Green & Red Flags
         flags = evaluate_flags(parsed)
 
-        # 4. Logistic Regression ML Prediction
-        ml_result = predict_career_role(raw_text)
+        # 4. ML Predictions — All 3 models
+        all_predictions = predict_all_models(raw_text)
+
+        # Backward-compat: use LR result as the primary prediction
+        lr_result = all_predictions.get("logistic_regression", {})
+        best_result = all_predictions.get("best_prediction", lr_result)
         metrics = get_model_metrics()
+        all_metrics = get_all_metrics()
 
         parsed_entities = {
             "name": str(parsed.get("name", "Not Provided")),
@@ -66,13 +72,13 @@ def upload_resume(current_user):
             "projects": str(parsed.get("projects", ""))
         }
 
-        # 5. Save to database
+        # 5. Save to database (use best model prediction as primary)
         resume_id = ResumeModel.save_resume(
             user_id=current_user['id'],
             filename=filename,
-            prediction=str(ml_result['predicted_role']),
-            confidence=float(ml_result['confidence']),
-            accuracy=float(metrics.get('accuracy', 92.84)),
+            prediction=str(best_result.get('predicted_role', lr_result.get('predicted_role', 'Unknown'))),
+            confidence=float(best_result.get('confidence', lr_result.get('confidence', 0))),
+            accuracy=float(metrics.get('accuracy', 0)),
             green_flags=[str(f) for f in flags['green_flags']],
             red_flags=[str(f) for f in flags['red_flags']],
             parsed_entities=parsed_entities
@@ -83,14 +89,22 @@ def upload_resume(current_user):
             "filename": filename,
             "parsed_entities": parsed_entities,
             "prediction": {
-                "predicted_role": str(ml_result['predicted_role']),
-                "confidence": float(ml_result['confidence']),
+                "predicted_role": str(best_result.get('predicted_role', lr_result.get('predicted_role', 'Unknown'))),
+                "confidence": float(best_result.get('confidence', lr_result.get('confidence', 0))),
                 "breakdown": [
                     {"role": str(item['role']), "probability": float(item['probability'])}
-                    for item in ml_result['breakdown']
+                    for item in best_result.get('breakdown', lr_result.get('breakdown', []))
                 ]
             },
+            "all_predictions": {
+                "logistic_regression": all_predictions.get("logistic_regression", {}),
+                "random_forest": all_predictions.get("random_forest", {}),
+                "xgboost": all_predictions.get("xgboost", {}),
+                "best_model": all_predictions.get("best_model", "Logistic Regression"),
+                "best_model_key": all_predictions.get("best_model_key", "logistic_regression"),
+            },
             "model_performance": metrics,
+            "all_metrics": all_metrics,
             "green_flags": [str(f) for f in flags['green_flags']],
             "red_flags": [str(f) for f in flags['red_flags']]
         }
@@ -112,6 +126,7 @@ def get_analysis(current_user, resume_id):
         return jsonify({'message': 'Unauthorized access to analysis'}), 403
 
     metrics = get_model_metrics()
+    all_metrics = get_all_metrics()
     return jsonify({
         "id": resume['id'],
         "filename": resume['filename'],
@@ -120,6 +135,7 @@ def get_analysis(current_user, resume_id):
             "confidence": resume['confidence']
         },
         "model_performance": metrics,
+        "all_metrics": all_metrics,
         "green_flags": resume['green_flags'],
         "red_flags": resume['red_flags'],
         "parsed_entities": resume['parsed_entities'],

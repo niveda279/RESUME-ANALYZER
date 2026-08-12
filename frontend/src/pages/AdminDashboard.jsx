@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { adminService } from '../services/api';
+import ModelComparison from '../components/ModelComparison';
 import Footer from '../components/Footer';
 
 export default function AdminDashboard() {
@@ -62,6 +63,9 @@ export default function AdminDashboard() {
     r.prediction?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const allMetrics = stats?.all_metrics || null;
+  const bestModelName = allMetrics?.best_model || 'Logistic Regression';
+
   if (loading) {
     return (
       <div className="container" style={{ textAlign: 'center', padding: '80px 0' }}>
@@ -112,16 +116,23 @@ export default function AdminDashboard() {
                 <div className="s-delta">▲ Evaluated documents</div>
               </div>
               <div className="stat-card">
-                <div className="s-label">Classifier Model</div>
-                <div className="s-value" style={{ fontSize: '18px' }}>Logistic Regression</div>
-                <div className="s-delta">▲ Scikit-learn Trained</div>
+                <div className="s-label">Best Classifier</div>
+                <div className="s-value" style={{ fontSize: '16px' }}>{bestModelName}</div>
+                <div className="s-delta">▲ Auto-selected by F1 Score</div>
               </div>
               <div className="stat-card">
-                <div className="s-label">Average ATS Score</div>
-                <div className="s-value">{stats?.accuracy || 92.84}%</div>
-                <div className="s-delta">▲ Cross-validation metric</div>
+                <div className="s-label">Models Trained</div>
+                <div className="s-value">3</div>
+                <div className="s-delta">▲ LR · RF · XGBoost</div>
               </div>
             </div>
+
+            {/* ML Model Comparison Section */}
+            {allMetrics && (
+              <div style={{ marginBottom: '24px' }}>
+                <ModelComparison allMetrics={allMetrics} />
+              </div>
+            )}
 
             {/* Resumes Table */}
             <div className="admin-table-card" style={{ marginBottom: '24px' }}>
@@ -151,7 +162,7 @@ export default function AdminDashboard() {
                         <td>
                           <span className="pill high">{r.prediction}</span>
                         </td>
-                        <td>{r.confidence ? `${r.confidence}%` : '88%'}</td>
+                        <td>{r.confidence ? `${r.confidence}%` : '—'}</td>
                         <td>{new Date(r.created_at).toLocaleDateString()}</td>
                         <td className="row-actions">
                           <button

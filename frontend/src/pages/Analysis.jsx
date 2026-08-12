@@ -43,7 +43,7 @@ export default function Analysis() {
       <PredictionCard prediction={analysis.prediction} />
       <GreenFlags flags={analysis.green_flags} />
       <RedFlags flags={analysis.red_flags} />
-      <AccuracyCard metrics={analysis.model_performance} />
+      <AccuracyCard metrics={analysis.model_performance} allMetrics={analysis.all_metrics} parsedEntities={analysis.parsed_entities} />
     </div>
   );
 }

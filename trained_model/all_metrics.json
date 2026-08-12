@@ -1,0 +1,532 @@
+{
+  "logistic_regression": {
+    "algorithm": "Logistic Regression",
+    "accuracy": 94.0,
+    "precision": 96.0,
+    "recall": 94.0,
+    "f1_score": 93.6,
+    "feature_importance": [
+      {
+        "feature": "data",
+        "importance": 0.3037
+      },
+      {
+        "feature": "engineer",
+        "importance": 0.2536
+      },
+      {
+        "feature": "security",
+        "importance": 0.2464
+      },
+      {
+        "feature": "cloud",
+        "importance": 0.245
+      },
+      {
+        "feature": "analyst",
+        "importance": 0.2385
+      },
+      {
+        "feature": "product",
+        "importance": 0.2332
+      },
+      {
+        "feature": "business",
+        "importance": 0.2202
+      },
+      {
+        "feature": "sql",
+        "importance": 0.2009
+      },
+      {
+        "feature": "web",
+        "importance": 0.2006
+      },
+      {
+        "feature": "architect",
+        "importance": 0.1982
+      }
+    ],
+    "confusion_matrix": [
+      [
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10
+      ]
+    ]
+  },
+  "random_forest": {
+    "algorithm": "Random Forest",
+    "accuracy": 98.0,
+    "precision": 98.67,
+    "recall": 98.0,
+    "f1_score": 97.87,
+    "feature_importance": [
+      {
+        "feature": "web developer",
+        "importance": 0.024
+      },
+      {
+        "feature": "engineer",
+        "importance": 0.0223
+      },
+      {
+        "feature": "scientist",
+        "importance": 0.0218
+      },
+      {
+        "feature": "devops",
+        "importance": 0.0215
+      },
+      {
+        "feature": "manager",
+        "importance": 0.021
+      },
+      {
+        "feature": "architect",
+        "importance": 0.0193
+      },
+      {
+        "feature": "product manager",
+        "importance": 0.0187
+      },
+      {
+        "feature": "product",
+        "importance": 0.0186
+      },
+      {
+        "feature": "ml engineer",
+        "importance": 0.0186
+      },
+      {
+        "feature": "analyst",
+        "importance": 0.0185
+      }
+    ],
+    "confusion_matrix": [
+      [
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10
+      ]
+    ]
+  },
+  "xgboost": {
+    "algorithm": "XGBoost",
+    "accuracy": 96.0,
+    "precision": 97.33,
+    "recall": 96.0,
+    "f1_score": 95.73,
+    "feature_importance": [
+      {
+        "feature": "web",
+        "importance": 0.0839
+      },
+      {
+        "feature": "product",
+        "importance": 0.0546
+      },
+      {
+        "feature": "data scientist",
+        "importance": 0.0527
+      },
+      {
+        "feature": "software engineer",
+        "importance": 0.0517
+      },
+      {
+        "feature": "cyber security",
+        "importance": 0.0515
+      },
+      {
+        "feature": "data analyst",
+        "importance": 0.0511
+      },
+      {
+        "feature": "product manager",
+        "importance": 0.0508
+      },
+      {
+        "feature": "business analyst",
+        "importance": 0.0474
+      },
+      {
+        "feature": "ml engineer",
+        "importance": 0.0416
+      },
+      {
+        "feature": "manager",
+        "importance": 0.0396
+      }
+    ],
+    "confusion_matrix": [
+      [
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10
+      ]
+    ]
+  },
+  "best_model": "Random Forest",
+  "best_model_key": "random_forest",
+  "classes": [
+    "Business Analyst",
+    "Cloud Architect",
+    "Cyber Security Specialist",
+    "Data Analyst",
+    "Data Scientist",
+    "DevOps Engineer",
+    "ML Engineer",
+    "Product Manager",
+    "Software Engineer",
+    "Web Developer"
+  ],
+  "dataset_size": 100,
+  "cv_folds": 5,
+  "evaluation": "5-Fold Stratified Cross-Validation"
+}

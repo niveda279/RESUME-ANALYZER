@@ -2,28 +2,100 @@ text,label
 "Experienced Software Engineer with expertise in Python, Java, C++, REST APIs, microservices, Docker, Kubernetes, Git, PostgreSQL, unit testing, CI/CD, Agile methodology. B.S. in Computer Science. Developed scalable backend systems and high throughput microservices.",Software Engineer
 "Full Stack Software Engineer proficient in JavaScript, TypeScript, Node.js, React, Express, MongoDB, SQL, GraphQL, AWS, Git, unit testing, system architecture. Created enterprise web applications.",Software Engineer
 "Software Developer specializing in object-oriented programming, C#, .NET Core, SQL Server, Web APIs, Azure, Docker, Git. Built high reliability software for financial enterprise application.",Software Engineer
+"Backend Software Engineer with strong foundations in distributed systems, Python, Go, Kafka, Redis, PostgreSQL, Elasticsearch, REST APIs, gRPC, Docker, CI/CD pipelines. Designed fault-tolerant services.",Software Engineer
+"Software Engineer with 4 years experience in Java Spring Boot, microservices, Hibernate, MySQL, RabbitMQ, Docker, Jenkins, Agile development. Delivered enterprise SaaS platform features.",Software Engineer
+"Senior Software Engineer proficient in Python, Flask, Django, REST APIs, PostgreSQL, Redis, Celery, Docker, Kubernetes, GitLab CI/CD, unit and integration testing.",Software Engineer
+"Software Engineer specialized in mobile backend APIs, Node.js, Express.js, MongoDB, Firebase, JWT authentication, GraphQL, AWS Lambda, serverless architecture.",Software Engineer
+"Software Engineer experienced in C++, embedded systems, Linux kernel development, memory management, multithreading, POSIX APIs, CMake, GDB. Worked on real-time software systems.",Software Engineer
+"Junior Software Engineer with expertise in Python, FastAPI, SQLAlchemy, PostgreSQL, Docker, GitHub Actions, unit testing, REST API design, Agile sprints.",Software Engineer
+"Software Engineer with Scala, Akka, Apache Spark, functional programming, Kafka, AWS, CI/CD, microservices, distributed systems experience. Built real-time data pipelines.",Software Engineer
 "Data Analyst with 3 years of experience in SQL, Python, R, Tableau, Power BI, Excel, data visualization, statistical analysis, ETL pipelines, pandas, numpy, business reporting. B.S. in Statistics.",Data Analyst
 "Senior Data Analyst skilled in SQL query optimization, data warehousing, Snowflake, Looker, Python, exploratory data analysis, A/B testing, dashboards, business metrics.",Data Analyst
 "Data Analyst experienced in data wrangling, SQL, PostgreSQL, Excel modeling, Google Analytics, visual dashboards, forecasting, stakeholder reporting.",Data Analyst
+"Data Analyst proficient in Python, pandas, numpy, matplotlib, seaborn, SQL, Tableau, Power BI, ETL processes, data cleaning, hypothesis testing, KPI reporting.",Data Analyst
+"Business Data Analyst skilled in Excel advanced analytics, SQL Server, Power BI dashboards, data modeling, pivot tables, business process analysis, requirements documentation.",Data Analyst
+"Marketing Data Analyst with expertise in Google Analytics, SQL, Python, Tableau, customer segmentation, cohort analysis, funnel optimization, A/B testing, campaign performance.",Data Analyst
+"Senior Data Analyst specialized in financial data analysis, SQL, Python, Alteryx, Power BI, budgeting models, revenue forecasting, variance analysis.",Data Analyst
+"Data Analyst with expertise in healthcare data, SQL, Python, R, Tableau, HIPAA compliance, clinical metrics, quality improvement analysis, patient outcome reporting.",Data Analyst
+"Junior Data Analyst proficient in SQL, Excel, Google Sheets, Python basics, Tableau Public, data cleaning, descriptive statistics, dashboard creation.",Data Analyst
+"Operations Data Analyst skilled in SQL, Python, supply chain analytics, inventory optimization, Power BI, Excel VBA, process improvement.",Data Analyst
 "Business Analyst with expertise in requirements gathering, SQL, UML, wireframing, Jira, Confluence, Agile/Scrum, process mapping, data analysis, user stories, stakeholder management.",Business Analyst
 "Senior Business Analyst specializing in enterprise software implementation, financial analysis, business process re-engineering, SQL, Tableau, SDLC, gap analysis.",Business Analyst
 "IT Business Analyst skilled in functional specification, data flow diagrams, SQL, gap analysis, user acceptance testing UAT, Jira, client communication.",Business Analyst
+"Business Analyst with expertise in ERP systems, SAP, business requirements documentation, process modeling, BPMN, SQL, stakeholder workshops, change management.",Business Analyst
+"Business Analyst proficient in Agile methodology, product backlog management, user story writing, acceptance criteria, Jira, Confluence, sprint planning, retrospectives.",Business Analyst
+"Senior Business Analyst with experience in CRM implementations, Salesforce, business case development, ROI analysis, vendor evaluation, data migration planning.",Business Analyst
+"Business Analyst specializing in financial services, regulatory compliance, IFRS/GAAP, SQL, Excel financial modeling, process documentation, audit support.",Business Analyst
+"Business Analyst with insurance domain expertise, claims processing analysis, policy management systems, SQL, Visio process diagrams, regulatory reporting.",Business Analyst
+"Junior Business Analyst skilled in requirements elicitation, use case documentation, SQL basics, Jira, test case writing, UAT coordination, stakeholder communication.",Business Analyst
+"Technical Business Analyst experienced in API documentation, data mapping, system integration requirements, SQL, Postman API testing, technical writing.",Business Analyst
 "Machine Learning Engineer experienced in PyTorch, TensorFlow, Scikit-Learn, MLOps, Docker, Python, MLflow, computer vision, NLP, feature engineering, model deployment, AWS SageMaker.",ML Engineer
 "Senior ML Engineer proficient in Deep Learning, Keras, Transformers, BERT, LLMs, Scikit-Learn, Pandas, NumPy, Python, C++, CUDA, Triton, Kubeflow.",ML Engineer
 "AI/ML Engineer specializing in predictive modeling, Logistic Regression, Random Forest, XGBoost, NLP, spaCy, NLTK, ML pipelines, Flask REST API deployment.",ML Engineer
+"ML Engineer with expertise in recommendation systems, collaborative filtering, matrix factorization, Python, TensorFlow, Airflow, Spark, AWS, MLflow experiment tracking.",ML Engineer
+"Machine Learning Engineer proficient in time series forecasting, LSTM, Prophet, Python, scikit-learn, feature engineering, cross-validation, model serialization.",ML Engineer
+"Senior ML Engineer specialized in computer vision, object detection, YOLO, OpenCV, PyTorch, CNN architectures, model optimization, TensorRT, GPU computing.",ML Engineer
+"ML Engineer experienced in reinforcement learning, OpenAI Gym, PyTorch, policy optimization, A3C, DQN, reward shaping, simulation environments.",ML Engineer
+"ML Engineer proficient in natural language processing, BERT fine-tuning, HuggingFace Transformers, text classification, named entity recognition, sentiment analysis.",ML Engineer
+"Junior ML Engineer skilled in Python, scikit-learn, pandas, numpy, model training, hyperparameter tuning, cross-validation, Jupyter notebooks, Git.",ML Engineer
+"ML Engineer with MLOps expertise, Kubernetes, Docker, Apache Airflow, MLflow, model versioning, A/B testing models, monitoring model drift, CI/CD for ML.",ML Engineer
 "Web Developer proficient in HTML5, CSS3, JavaScript, React, Vue.js, Tailwind CSS, Responsive Design, RESTful APIs, Node.js, Webpack, Git. Built modern web platforms.",Web Developer
 "Frontend Web Developer skilled in HTML, CSS, JavaScript, React.js, Redux, Next.js, UI/UX implementation, cross-browser compatibility, web performance optimization.",Web Developer
 "Full Stack Web Developer with experience in PHP, Laravel, MySQL, JavaScript, HTML5, Bootstrap, CSS3, WordPress, REST APIs. Built e-commerce websites.",Web Developer
+"Web Developer experienced in Angular, TypeScript, SCSS, RxJS, HTTP client, Angular Material, lazy loading, component architecture, unit testing with Jasmine.",Web Developer
+"React Web Developer proficient in React hooks, Context API, Redux Toolkit, React Query, TypeScript, styled-components, Webpack, Vite, Jest testing.",Web Developer
+"Web Developer with backend experience in Node.js, Express, MongoDB, Mongoose, REST API design, JWT auth, bcrypt, Multer file uploads, deployment on Heroku.",Web Developer
+"Full Stack Web Developer skilled in Python Django, Django REST Framework, PostgreSQL, React, Redux, Celery, Redis, Docker, Nginx, AWS EC2 deployment.",Web Developer
+"Web Developer specialized in e-commerce, WooCommerce, Shopify, Liquid templating, JavaScript, CSS animations, SEO optimization, Google Analytics.",Web Developer
+"Junior Web Developer proficient in HTML5, CSS3, JavaScript ES6, React basics, responsive design, Git, GitHub Pages, Chrome DevTools debugging.",Web Developer
+"Senior Web Developer with expertise in performance optimization, Core Web Vitals, lazy loading, code splitting, CDN, PWA development, service workers.",Web Developer
 "Data Scientist with expertise in Python, R, SQL, Machine Learning, Statistical Modeling, Deep Learning, Pandas, Scikit-learn, Data Mining, Jupyter, A/B Testing. Ph.D. in Applied Mathematics.",Data Scientist
 "Data Scientist skilled in predictive analytics, time series forecasting, NLP, Python, Spark, Hadoop, SQL, Matplotlib, Seaborn, Feature Selection.",Data Scientist
 "Lead Data Scientist experienced in machine learning algorithms, Logistic Regression, Random Forest, Neural Networks, PySpark, Big Data, ML deployment, AWS.",Data Scientist
+"Data Scientist proficient in Bayesian modeling, causal inference, experimental design, Python, Stan, PyMC3, A/B testing, statistical significance testing.",Data Scientist
+"Data Scientist with expertise in recommendation engines, collaborative filtering, content-based filtering, matrix factorization, Python, TensorFlow, Spark MLlib.",Data Scientist
+"Senior Data Scientist experienced in churn prediction, customer lifetime value modeling, Python, XGBoost, LightGBM, feature importance, SHAP values.",Data Scientist
+"Data Scientist specialized in computer vision applications, image classification, CNN, transfer learning, PyTorch, OpenCV, data augmentation.",Data Scientist
+"Data Scientist proficient in NLP text analytics, topic modeling, LDA, word embeddings, Word2Vec, BERT, text summarization, Python, spaCy.",Data Scientist
+"Junior Data Scientist with skills in Python, pandas, scikit-learn, data visualization, matplotlib, seaborn, hypothesis testing, exploratory data analysis.",Data Scientist
+"Data Scientist experienced in healthcare analytics, survival analysis, clinical trial data, R, Python, regulatory compliance, predictive risk modeling.",Data Scientist
 "DevOps Engineer proficient in Kubernetes, Docker, Terraform, Ansible, AWS, Jenkins, CI/CD pipelines, Bash scripting, Linux administration, Prometheus, Grafana, Git.",DevOps Engineer
 "Senior DevOps Engineer specializing in Cloud Infrastructure, AWS, Azure, Infrastructure as Code, CI/CD, Python, Shell scripting, Helm, ArgoCD, Monitoring.",DevOps Engineer
 "Cloud & DevOps Engineer skilled in GCP, AWS, Docker, Kubernetes, Terraform, Python, Linux system administration, security compliance, network engineering.",DevOps Engineer
+"DevOps Engineer with expertise in GitOps, ArgoCD, Flux, Kubernetes operators, Helm charts, Kustomize, multi-cluster management, progressive delivery.",DevOps Engineer
+"DevOps Engineer proficient in AWS services EC2, EKS, RDS, S3, Lambda, CloudFormation, AWS CDK, IAM policies, VPC networking, cost optimization.",DevOps Engineer
+"Site Reliability Engineer with DevOps background, SLI/SLO/SLA definitions, incident management, runbooks, Prometheus, Grafana, alerting, chaos engineering.",DevOps Engineer
+"DevOps Engineer specialized in database operations, PostgreSQL, MySQL, automated backups, replication, failover, performance tuning, database migration.",DevOps Engineer
+"Senior DevOps Engineer with Platform Engineering experience, developer tooling, internal developer platforms, Backstage, Crossplane, self-service infrastructure.",DevOps Engineer
+"Junior DevOps Engineer skilled in Docker, Git, CI/CD basics, Linux administration, shell scripting, AWS fundamentals, Terraform basics.",DevOps Engineer
+"DevOps Engineer experienced in security DevSecOps, SAST, DAST, container scanning, Vault secrets management, RBAC, compliance automation.",DevOps Engineer
 "Product Manager with track record of launching B2B SaaS products. Skilled in product roadmap development, user research, agile scrum, wireframing, SQL, metrics tracking, Jira.",Product Manager
 "Senior Technical Product Manager proficient in API design, product strategy, backlog prioritization, data analysis, A/B testing, UX design, cross-functional leadership.",Product Manager
 "Product Manager experienced in market analysis, customer discovery, PRD writing, Figma, Jira, analytics, go-to-market strategy, product lifecycle management.",Product Manager
+"Product Manager with expertise in mobile applications, iOS, Android, app store optimization, user engagement metrics, push notifications, monetization strategies.",Product Manager
+"Product Manager specializing in AI/ML products, data product strategy, model deployment, ethics AI, feature prioritization, stakeholder alignment.",Product Manager
+"Senior Product Manager experienced in enterprise software, sales-led growth, customer success, contract renewals, expansion revenue, executive presentations.",Product Manager
+"Product Manager proficient in growth hacking, funnel optimization, conversion rate optimization, referral programs, viral loops, North Star metrics.",Product Manager
+"Associate Product Manager skilled in competitive analysis, user journey mapping, feature scoping, sprint planning, release notes, customer feedback synthesis.",Product Manager
+"Product Manager with e-commerce expertise, marketplace dynamics, seller/buyer experience, checkout optimization, payment systems, catalog management.",Product Manager
+"Technical Product Manager experienced in data pipelines, API product management, developer experience, SDK documentation, partner integrations.",Product Manager
 "Cyber Security Specialist with expertise in penetration testing, ethical hacking, SIEM, Wireshark, Metasploit, CISSP, network security, vulnerability assessment, incident response.",Cyber Security Specialist
 "Information Security Engineer skilled in SOC analysis, firewalls, threat intelligence, Python scripting, ISO 27001 compliance, malware analysis, cryptography.",Cyber Security Specialist
+"Cyber Security Analyst experienced in SIEM tools, Splunk, QRadar, log analysis, threat hunting, incident response, digital forensics, endpoint detection.",Cyber Security Specialist
+"Application Security Engineer proficient in OWASP Top 10, secure code review, penetration testing, Burp Suite, DAST/SAST tools, vulnerability remediation.",Cyber Security Specialist
+"Senior Cyber Security Specialist with cloud security expertise, AWS Security Hub, GuardDuty, IAM policies, zero trust architecture, security audits.",Cyber Security Specialist
+"Cyber Security Engineer specialized in network security, firewall management, intrusion detection, IDS/IPS, pfSense, Cisco ASA, VPN configuration.",Cyber Security Specialist
+"Cyber Security Consultant proficient in risk assessment, compliance GDPR, HIPAA, PCI-DSS, security policies, business continuity planning, audit support.",Cyber Security Specialist
+"Junior Cyber Security Analyst with CompTIA Security+ certification, network monitoring, vulnerability scanning, Nessus, Qualys, basic malware analysis.",Cyber Security Specialist
+"Red Team Security Engineer experienced in adversarial simulations, social engineering, phishing campaigns, lateral movement, privilege escalation.",Cyber Security Specialist
+"Cyber Security Specialist with DevSecOps background, container security, Kubernetes security, secrets management, Vault, CI/CD security scanning.",Cyber Security Specialist
 "Cloud Architect with extensive experience designing multi-cloud solutions on AWS and Azure. Skilled in microservices, serverless architecture, IAM, CloudFormation, TOGAF.",Cloud Architect
 "Solutions Cloud Architect proficient in AWS, Terraform, Docker, Kubernetes, Enterprise Architecture, Cost Optimization, High Availability, Disaster Recovery.",Cloud Architect
+"Cloud Architect specialized in data lake architecture, AWS Lake Formation, Glue, S3, Athena, Redshift, streaming data with Kinesis and Kafka.",Cloud Architect
+"Senior Cloud Architect with GCP expertise, BigQuery, Dataflow, Cloud Run, Anthos, hybrid cloud, network design, security architecture.",Cloud Architect
+"Cloud Architect experienced in Azure cloud, Azure DevOps, AKS, Azure Functions, Cosmos DB, Azure AD, enterprise identity management.",Cloud Architect
+"Enterprise Cloud Architect skilled in TOGAF framework, application modernization, cloud migration strategy, TCO analysis, vendor selection.",Cloud Architect
+"Cloud Architect proficient in serverless architecture, AWS Lambda, API Gateway, Step Functions, event-driven design, cost optimization.",Cloud Architect
+"Cloud Security Architect specialized in zero trust networking, cloud IAM, encryption at rest and transit, compliance automation, landing zones.",Cloud Architect
+"Junior Cloud Architect with AWS Solutions Architect Associate certification, CloudFormation, EC2, RDS, VPC design, load balancing basics.",Cloud Architect
+"Cloud Architect experienced in FinOps, cloud cost management, reserved instances, savings plans, rightsizing, tagging governance.",Cloud Architect

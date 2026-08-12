@@ -13,6 +13,7 @@ export default function Dashboard({ user }) {
   const [currentAnalysis, setCurrentAnalysis] = useState(null);
   const [history, setHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [allMetrics, setAllMetrics] = useState(null);
 
   const fetchHistory = async () => {
     try {
@@ -38,12 +39,26 @@ export default function Dashboard({ user }) {
     }
   };
 
+  const fetchMLMetrics = async () => {
+    try {
+      const data = await resumeService.getMLComparison();
+      setAllMetrics(data);
+    } catch (err) {
+      console.error('Failed to load ML metrics:', err);
+    }
+  };
+
   useEffect(() => {
     fetchHistory();
+    fetchMLMetrics();
   }, []);
 
   const handleAnalysisComplete = (data) => {
     setCurrentAnalysis(data);
+    // Update allMetrics if the API returned them
+    if (data.all_metrics) {
+      setAllMetrics(data.all_metrics);
+    }
     fetchHistory();
     // Smooth scroll down to analysis section
     const elem = document.getElementById('analysis-report-section');
@@ -68,6 +83,9 @@ export default function Dashboard({ user }) {
       elem.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Determine the best model name for display
+  const bestModelName = allMetrics?.best_model || 'Logistic Regression';
 
   return (
     <div>
@@ -94,11 +112,11 @@ export default function Dashboard({ user }) {
         {/* FRAME 02 — ANALYSIS REPORT */}
         {currentAnalysis && (
           <div id="analysis-report-section" style={{ paddingTop: '32px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '28px', flexWrap: 'wrap', gap: '8px' }}>
               <div>
                 <h2 style={{ fontSize: '24px', color: 'var(--dark)' }}>Analysis Report</h2>
                 <p style={{ fontSize: '13.5px', color: 'var(--muted)', marginTop: '4px' }}>
-                  {currentAnalysis.filename} · Logistic Regression Evaluated
+                  {currentAnalysis.filename} · Best Model: {bestModelName}
                 </p>
               </div>
             </div>
@@ -110,8 +128,11 @@ export default function Dashboard({ user }) {
               score={currentAnalysis.prediction?.confidence || 88}
             />
 
-            {/* Career Path Prediction */}
-            <PredictionCard prediction={currentAnalysis.prediction} />
+            {/* Career Path Prediction — now with multi-model support */}
+            <PredictionCard
+              prediction={currentAnalysis.prediction}
+              allPredictions={currentAnalysis.all_predictions || null}
+            />
 
             {/* Flags Grid */}
             <div className="flags-grid">
@@ -119,8 +140,12 @@ export default function Dashboard({ user }) {
               <RedFlags flags={currentAnalysis.red_flags} />
             </div>
 
-            {/* Skills & Keywords & Section Analysis */}
-            <AccuracyCard metrics={currentAnalysis.model_performance} />
+            {/* Skills & Keywords & Section Analysis + Model Comparison */}
+            <AccuracyCard
+              metrics={currentAnalysis.model_performance}
+              allMetrics={allMetrics}
+              parsedEntities={currentAnalysis.parsed_entities}
+            />
           </div>
         )}
 

@@ -65,6 +65,10 @@ export const resumeService = {
     const res = await api.get('/history');
     return res.data;
   },
+  getMLComparison: async () => {
+    const res = await api.get('/ml-comparison');
+    return res.data;
+  },
 };
 
 export const adminService = {
@@ -86,6 +90,10 @@ export const adminService = {
   },
   deleteResume: async (id) => {
     const res = await api.delete(`/admin/resume/${id}`);
+    return res.data;
+  },
+  getMLMetrics: async () => {
+    const res = await api.get('/admin/ml-metrics');
     return res.data;
   },
 };

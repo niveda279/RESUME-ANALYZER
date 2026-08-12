@@ -9,11 +9,11 @@ venv/
 ENV/
 .env
 
-# SQLite
+# SQLite database (auto-created, not committed)
 *.db
 *.sqlite3
 
-# Uploaded Files
+# Uploaded Files (user uploads, not committed)
 uploads/*
 !uploads/.gitkeep
 
@@ -27,3 +27,16 @@ frontend/dist/
 # IDE
 .vscode/
 .idea/
+
+# Trained ML Model Files
+# NOTE: Joblib model files are large binary files.
+# They are excluded from git and regenerated via `python backend/train_model.py`
+trained_model/*.joblib
+
+# Metrics JSON files are lightweight and committed for reference.
+# Uncomment below to also exclude them:
+# trained_model/*.json
+
+# ngrok
+ngrok.zip
+tunnel.txt

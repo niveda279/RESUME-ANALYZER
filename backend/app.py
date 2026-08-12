@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, jsonify
 from flask_cors import CORS
 from utils.database import init_db
+from utils.ml_model import get_all_metrics
 from routes.auth import auth_bp
 from routes.resume import resume_bp
 from routes.admin import admin_bp
@@ -33,11 +34,19 @@ app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
+    all_metrics = get_all_metrics()
     return jsonify({
         "status": "healthy",
         "service": "CareerCast API",
-        "model": "Logistic Regression"
+        "models": ["Logistic Regression", "Random Forest", "XGBoost"],
+        "best_model": all_metrics.get("best_model", "Logistic Regression")
     }), 200
+
+@app.route('/api/ml-comparison', methods=['GET'])
+def ml_comparison():
+    """Public endpoint returning model comparison metrics."""
+    all_metrics = get_all_metrics()
+    return jsonify(all_metrics), 200
 
 # Error Handler for Payload Too Large
 @app.errorhandler(413)

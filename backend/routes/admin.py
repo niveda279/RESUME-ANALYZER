@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from routes.auth import admin_required
 from models.user import UserModel
 from models.resume import ResumeModel
-from utils.ml_model import get_model_metrics
+from utils.ml_model import get_model_metrics, get_all_metrics
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -13,12 +13,14 @@ def get_stats(current_user):
     total_users = len(users)
     total_resumes = ResumeModel.count_total()
     metrics = get_model_metrics()
+    all_metrics = get_all_metrics()
 
     return jsonify({
         "total_users": total_users,
         "total_resumes": total_resumes,
-        "accuracy": metrics.get("accuracy", 92.84),
-        "metrics": metrics
+        "accuracy": metrics.get("accuracy", 0),
+        "metrics": metrics,
+        "all_metrics": all_metrics
     }), 200
 
 @admin_bp.route('/users', methods=['GET'])
@@ -47,3 +49,10 @@ def get_resumes(current_user):
 def delete_resume(current_user, resume_id):
     ResumeModel.delete_resume(resume_id)
     return jsonify({'message': 'Resume deleted successfully'}), 200
+
+@admin_bp.route('/ml-metrics', methods=['GET'])
+@admin_required
+def get_ml_metrics(current_user):
+    """Return full model comparison metrics for admin dashboard."""
+    all_metrics = get_all_metrics()
+    return jsonify(all_metrics), 200
