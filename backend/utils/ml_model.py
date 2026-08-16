@@ -17,6 +17,15 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
+import mlflow
+import mlflow.sklearn
+from dotenv import load_dotenv
+
+load_dotenv()
+if os.environ.get("MLFLOW_TRACKING_URI"):
+    mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
+
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -136,6 +145,13 @@ def train_and_save_model():
     Returns the full all_metrics dict.
     """
     os.makedirs(MODEL_DIR, exist_ok=True)
+    
+    mlflow_run = None
+    try:
+        mlflow.set_experiment("CareerCast_Model_Training")
+        mlflow_run = mlflow.start_run(run_name="All_Models_Training")
+    except Exception as e:
+        print(f"[WARN] MLflow could not start: {e}")
 
     if not os.path.exists(DATASET_PATH):
         print(f"[ERROR] Dataset not found at {DATASET_PATH}")
@@ -319,6 +335,47 @@ def train_and_save_model():
 
     with open(ALL_METRICS_FILE, 'w') as f:
         json.dump(all_metrics, f, indent=2)
+
+    # MLflow Logging
+    if mlflow_run:
+        try:
+            # Log params
+            mlflow.log_param("dataset_size", all_metrics["dataset_size"])
+            mlflow.log_param("cv_folds", n_folds)
+            mlflow.log_param("best_model_key", best_key)
+
+            # Log models
+            mlflow.sklearn.log_model(vectorizer, "tfidf_vectorizer")
+            mlflow.sklearn.log_model(lr_model, "logistic_regression")
+            mlflow.sklearn.log_model(rf_model, "random_forest")
+            if XGBOOST_AVAILABLE and le is not None:
+                mlflow.sklearn.log_model(xgb_model, "xgboost_model")
+
+            # Log metrics
+            for k in ["logistic_regression", "random_forest", "xgboost"]:
+                if k in all_metrics:
+                    m = all_metrics[k]
+                    if isinstance(m, dict) and "accuracy" in m:
+                        mlflow.log_metric(f"{k}_accuracy", m["accuracy"])
+                        mlflow.log_metric(f"{k}_f1", m["f1_score"])
+
+            # Register best model
+            best_model_map = {
+                "logistic_regression": lr_model,
+                "random_forest": rf_model,
+                "xgboost": xgb_model if (XGBOOST_AVAILABLE and le is not None) else None
+            }
+            best_mod = best_model_map.get(best_key)
+            if best_mod:
+                mlflow.sklearn.log_model(
+                    best_mod,
+                    "best_model_artifact",
+                    registered_model_name="CareerCast_BestModel"
+                )
+        except Exception as e:
+            print(f"[WARN] MLflow logging failed: {e}")
+        finally:
+            mlflow.end_run()
 
     # Backward-compat: keep metrics.json pointing to LR
     lr_compat = {k: v for k, v in lr_metrics.items() if k not in ('confusion_matrix', 'feature_importance')}

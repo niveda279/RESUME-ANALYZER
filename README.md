@@ -8,6 +8,13 @@ The application features a modern enterprise UI, role-based JWT authentication (
 
 ## Key Features
 
+### ✨ Milestone 3 Enhancements
+- **FastAPI Backend:** Modern, fast REST service alongside the existing Flask app (`/api/v2`).
+- **Skill Gap Analysis:** Compares candidate skills against job requirements, showing matched, missing, and priority skills with actionable suggestions.
+- **MLflow Model Registry:** Automated experiment tracking, metric logging, and versioning of the ML models.
+- **Streamlit Review UI Prototype:** Dedicated interface (`localhost:8501`) for testing predictions, gap analysis, and downloading gap reports.
+- **GitHub Actions CI Pipeline:** Automated tests and a model accuracy gate to ensure model quality before merging.
+
 ### 1. Multi-Model Machine Learning Pipeline
 - **Three ML models trained and compared:**
   - **Logistic Regression** — Original baseline model (fast, interpretable)
@@ -145,6 +152,11 @@ CareerCast/
 │   ├── package.json
 │   ├── index.html
 │   └── vite.config.js
+├── streamlit/
+│   └── review_app.py               # Streamlit prototype UI for Milestone 3
+├── .github/
+│   └── workflows/
+│       └── ci.yml                  # GitHub Actions CI pipeline with Accuracy Gate
 ├── dataset/
 │   └── resumes_dataset.csv         # Training dataset (100 samples, 10 classes)
 ├── trained_model/
@@ -200,17 +212,27 @@ pip install -r requirements.txt
 # Download SpaCy English model
 python -m spacy download en_core_web_sm
 
-# Train all ML models (Logistic Regression + Random Forest + XGBoost)
-# This generates all .joblib files and metrics.json in trained_model/
+# Start the MLflow tracking server (on port 5001)
+mlflow server --host 127.0.0.1 --port 5001 &
+
+# Train all ML models (Logged to MLflow automatically)
 python backend/train_model.py
 
-# Start the Flask API backend
-python backend/app.py
+# Start the new FastAPI + Flask backend (Uvicorn)
+uvicorn backend.main:app --host 0.0.0.0 --port 5000 --reload
 ```
 
-The backend runs on `http://127.0.0.1:5000`.
+The backend runs on `http://127.0.0.1:5000`. You can access the FastAPI swagger docs at `http://127.0.0.1:5000/docs`.
 
-### 3. Frontend Setup
+### 3. Streamlit Review UI (Milestone 3)
+
+Open a new terminal:
+```bash
+streamlit run streamlit/review_app.py --server.port 8501
+```
+The Streamlit UI runs on `http://localhost:8501`.
+
+### 4. React Frontend Setup
 
 Open a new terminal:
 
