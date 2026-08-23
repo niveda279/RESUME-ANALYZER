@@ -8,7 +8,7 @@ The application features a modern enterprise UI, role-based JWT authentication (
 
 ## Key Features
 
-### ✨ Milestone 4 — Interactive Skill Gap Analysis
+### ✨ Milestone 3 — Interactive Skill Gap Analysis
 - **Click any predicted role** in the Career Path Prediction card to instantly trigger a skill gap analysis.
 - **Three clickable trigger points** in the Prediction Card:
   - The **main role box** (primary prediction).
@@ -21,12 +21,6 @@ The application features a modern enterprise UI, role-based JWT authentication (
   - 📋 **Actionable Recommendations checklist** — one task per skill gap, with specific learning advice and a checkbox you can tick off as you learn.
 - **10 roles fully mapped** with curated competency requirements and suggestions.
 - State resets automatically when a new resume is uploaded or a history item is selected.
-
-### ✨ Milestone 3 Enhancements
-- **FastAPI Backend:** Modern, fast REST service alongside the existing Flask app (`/api/v2`).
-- **MLflow Model Registry:** Automated experiment tracking, metric logging, and versioning of the ML models.
-- **Streamlit Review UI Prototype:** Dedicated interface (`localhost:8501`) for testing predictions, gap analysis, and downloading gap reports.
-- **GitHub Actions CI Pipeline:** Automated tests and a model accuracy gate to ensure model quality before merging.
 
 ### 1. Multi-Model Machine Learning Pipeline
 - **Three ML models trained and compared:**
