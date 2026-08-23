@@ -1,16 +1,29 @@
 # CareerCast — AI-Powered Resume Analyzer
 
-**CareerCast** is a production-ready, enterprise-grade **AI Resume Analyzer** that uses three trained Machine Learning models to predict career paths, evaluate resume quality, and provide actionable hiring insights.
+**CareerCast** is a production-ready, enterprise-grade **AI Resume Analyzer** that uses three trained Machine Learning models to predict career paths, evaluate resume quality, and provide actionable hiring insights — including an **interactive Skill Gap Analysis** that compares your resume's skills against any predicted role's requirements in real time.
 
-The application features a modern enterprise UI, role-based JWT authentication (User & Admin), automated entity parsing (SpaCy & Regex), dynamic Green/Red Flag evaluation, and a full multi-model ML comparison dashboard.
+The application features a modern enterprise UI, role-based JWT authentication (User & Admin), automated entity parsing (SpaCy & Regex), dynamic Green/Red Flag evaluation, a full multi-model ML comparison dashboard, and a clickable skill gap analysis card with an animated SVG match gauge and actionable improvement checklist.
 
 ---
 
 ## Key Features
 
+### ✨ Milestone 4 — Interactive Skill Gap Analysis
+- **Click any predicted role** in the Career Path Prediction card to instantly trigger a skill gap analysis.
+- **Three clickable trigger points** in the Prediction Card:
+  - The **main role box** (primary prediction).
+  - Each **multi-model card** (Logistic Regression / Random Forest / XGBoost) — selects the model and starts analysis simultaneously.
+  - Every row in the **Role Probability Distribution** table — each has an "Analyze Gap ➔" badge.
+- **Analysis card shows:**
+  - 🟢 **Animated SVG ring gauge** — match percentage, color-coded (green ≥ 70%, amber ≥ 40%, red < 40%).
+  - ✅ **Available Skills** — green chips for resume skills that match the role's requirements.
+  - ❌ **Missing Required Skills** — red chips for Critical/High priority gaps, indigo for Moderate/Low.
+  - 📋 **Actionable Recommendations checklist** — one task per skill gap, with specific learning advice and a checkbox you can tick off as you learn.
+- **10 roles fully mapped** with curated competency requirements and suggestions.
+- State resets automatically when a new resume is uploaded or a history item is selected.
+
 ### ✨ Milestone 3 Enhancements
 - **FastAPI Backend:** Modern, fast REST service alongside the existing Flask app (`/api/v2`).
-- **Skill Gap Analysis:** Compares candidate skills against job requirements, showing matched, missing, and priority skills with actionable suggestions.
 - **MLflow Model Registry:** Automated experiment tracking, metric logging, and versioning of the ML models.
 - **Streamlit Review UI Prototype:** Dedicated interface (`localhost:8501`) for testing predictions, gap analysis, and downloading gap reports.
 - **GitHub Actions CI Pipeline:** Automated tests and a model accuracy gate to ensure model quality before merging.
@@ -34,9 +47,10 @@ The application features a modern enterprise UI, role-based JWT authentication (
 > Metrics are calculated from 5-Fold Stratified Cross-Validation on the actual dataset. Values shown above are representative — run `python backend/train_model.py` to see your exact results.
 
 ### 3. Modern Enterprise Light Theme UI
-- Clean white & light gray palette with professional blue accents
+- Clean white & light gray palette with professional indigo/blue accents
 - Responsive layout with micro-animations and interactive elements
 - High legibility, crisp typography (Inter font family), optimal whitespace
+- Glassmorphism-inspired cards with smooth slide-in animations
 
 ### 4. Role-Based JWT Authentication
 - **User Role**: Register, login, upload resumes (PDF/DOCX), view predictions, view Green/Red flag analyses, examine prediction history, and edit profile.
@@ -51,6 +65,25 @@ The application features a modern enterprise UI, role-based JWT authentication (
 ### 6. Dynamic Green Flags & Red Flags
 - **Green Flags**: Detects strengths (e.g., ✔ Strong technical skill set, ✔ Relevant internship experience, ✔ Multiple projects, ✔ Certifications, ✔ ATS-friendly formatting).
 - **Red Flags**: Highlights weaknesses (e.g., ✖ Missing GitHub profile, ✖ Missing LinkedIn profile, ✖ No measurable achievements, ✖ Missing certifications).
+
+---
+
+## Skill Gap Analysis — Supported Roles
+
+The Skill Gap engine covers all 10 career categories from the ML classifier. Each role has curated required competencies with priority levels:
+
+| Role | Critical Skills | High Skills | Moderate Skills |
+|---|---|---|---|
+| **Data Scientist** | Python, Machine Learning | SQL, Statistics | Data Visualization, Deep Learning |
+| **Software Engineer** | Python, Java, Data Structures | Algorithms, Git | System Design, SQL |
+| **Web Developer** | HTML, CSS, JavaScript | React, Node.js | Git, SQL |
+| **Data Analyst** | SQL, Excel | Python, Tableau | Data Cleaning, Statistics |
+| **DevOps Engineer** | Linux, Docker | Kubernetes, CI/CD, AWS | Python, Bash |
+| **Business Analyst** | SQL, Jira | Requirements Gathering, Agile, Excel | UML, User Stories |
+| **ML Engineer** | Python, PyTorch, TensorFlow | Scikit-Learn, Docker | MLOps, MLflow |
+| **Product Manager** | Product Roadmap, User Research | Agile, Jira | Figma, Product Strategy |
+| **Cyber Security Specialist** | Network Security, Penetration Testing | SIEM, Wireshark, Firewalls | Cryptography, Vulnerability Assessment |
+| **Cloud Architect** | AWS, Azure | Terraform, Kubernetes, CloudFormation | Microservices, Serverless |
 
 ---
 
@@ -109,22 +142,24 @@ The application features a modern enterprise UI, role-based JWT authentication (
 CareerCast/
 ├── backend/
 │   ├── app.py                     # Main Flask Server
+│   ├── main.py                    # FastAPI entry point (Milestone 3+)
 │   ├── train_model.py             # Reproducible training pipeline (all 3 models)
 │   ├── careercast.db              # SQLite database (auto-created)
 │   ├── routes/
 │   │   ├── auth.py                # Authentication endpoints (JWT)
-│   │   ├── resume.py              # Resume upload, parsing & prediction endpoints
+│   │   ├── resume.py              # Resume upload, parsing & prediction + /skill-gap
 │   │   └── admin.py               # Admin control panel endpoints
 │   ├── models/
 │   │   ├── user.py                # User database model
 │   │   └── resume.py              # Resume database model
-│   ├── utils/
-│   │   ├── parser.py              # SpaCy/Regex resume text parser
-│   │   ├── ml_model.py            # Unified ML training pipeline (LR + RF + XGBoost)
-│   │   ├── ml_service.py          # Prediction service (multi-model, lazy-loaded)
-│   │   ├── feature_extractor.py   # Green Flags & Red Flags evaluator
-│   │   └── database.py            # SQLite schema & default seed data
-│   └── requirements.txt
+│   ├── services/
+│   │   └── skill_gap.py           # Skill Gap Analysis logic + 10-role competency map
+│   └── utils/
+│       ├── parser.py              # SpaCy/Regex resume text parser
+│       ├── ml_model.py            # Unified ML training pipeline (LR + RF + XGBoost)
+│       ├── ml_service.py          # Prediction service (multi-model, lazy-loaded)
+│       ├── feature_extractor.py   # Green Flags & Red Flags evaluator
+│       └── database.py            # SQLite schema & default seed data
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -132,23 +167,24 @@ CareerCast/
 │   │   │   ├── ResumeCard.jsx
 │   │   │   ├── GreenFlags.jsx
 │   │   │   ├── RedFlags.jsx
-│   │   │   ├── PredictionCard.jsx  # Multi-model prediction tabs (Best/LR/RF/XGB)
+│   │   │   ├── PredictionCard.jsx  # Multi-model tabs + clickable roles → Skill Gap
+│   │   │   ├── SkillGapAnalysis.jsx # NEW — SVG gauge, skill grids, checklist
 │   │   │   ├── ModelComparison.jsx # ML comparison table + feature importance charts
 │   │   │   ├── AccuracyCard.jsx
 │   │   │   └── HistoryTable.jsx
 │   │   ├── pages/
 │   │   │   ├── Login.jsx
 │   │   │   ├── Register.jsx
-│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Dashboard.jsx       # Manages Skill Gap state + auto-scroll
 │   │   │   ├── UploadResume.jsx
 │   │   │   ├── Analysis.jsx
 │   │   │   ├── AdminDashboard.jsx  # ML model comparison + admin management
 │   │   │   └── Profile.jsx
 │   │   ├── services/
-│   │   │   └── api.js              # Axios API client
+│   │   │   └── api.js              # Axios API client (includes getSkillGap)
 │   │   ├── App.jsx
 │   │   ├── main.jsx
-│   │   └── index.css               # Enterprise light theme styling
+│   │   └── index.css               # Design system — Glassmorphism & Indigo theme
 │   ├── package.json
 │   ├── index.html
 │   └── vite.config.js
@@ -171,6 +207,8 @@ CareerCast/
 ├── README.md
 ├── requirements.txt                # Python dependencies
 ├── package.json                    # Root npm scripts
+├── start_backend.ps1               # One-command backend launcher (Windows)
+├── start_frontend.ps1              # One-command frontend launcher (Windows)
 ├── render.yaml                     # Render.com deployment config
 ├── .env.example                    # Environment variables template
 ├── .gitignore
@@ -181,7 +219,7 @@ CareerCast/
 
 ## Tech Stack
 
-- **Backend**: Python 3.10+, Flask 3.x, SQLite3, PyJWT, Werkzeug, Gunicorn
+- **Backend**: Python 3.10+, Flask 3.x, FastAPI, SQLite3, PyJWT, Werkzeug, Gunicorn
 - **Machine Learning**: Scikit-Learn, XGBoost >= 2.0, Joblib, Pandas, NumPy
 - **NLP & Parsing**: SpaCy (en_core_web_sm), PyPDF, Python-Docx
 - **Frontend**: React 18, Vite, React Router v6, Axios, Vanilla CSS
@@ -199,8 +237,8 @@ CareerCast/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/careercast.git
-cd careercast/RESUME-ANALYZER
+git clone https://github.com/niveda279/RESUME-ANALYZER.git
+cd RESUME-ANALYZER
 ```
 
 ### 2. Backend Setup
@@ -212,19 +250,21 @@ pip install -r requirements.txt
 # Download SpaCy English model
 python -m spacy download en_core_web_sm
 
-# Start the MLflow tracking server (on port 5001)
-mlflow server --host 127.0.0.1 --port 5001 &
-
-# Train all ML models (Logged to MLflow automatically)
+# Train all ML models
 python backend/train_model.py
 
-# Start the new FastAPI + Flask backend (Uvicorn)
-uvicorn backend.main:app --host 0.0.0.0 --port 5000 --reload
+# Start the Flask backend
+python backend/app.py
 ```
 
-The backend runs on `http://127.0.0.1:5000`. You can access the FastAPI swagger docs at `http://127.0.0.1:5000/docs`.
+Or use the provided launcher script (Windows):
+```powershell
+./start_backend.ps1
+```
 
-### 3. Streamlit Review UI (Milestone 3)
+The backend runs on `http://127.0.0.1:5000`.
+
+### 3. Streamlit Review UI (Optional)
 
 Open a new terminal:
 ```bash
@@ -242,11 +282,33 @@ npm install
 npm run dev
 ```
 
+Or use the provided launcher script (Windows):
+```powershell
+./start_frontend.ps1
+```
+
 The frontend runs on `http://localhost:3000`.
 
-### 4. Access the Application
+### 5. Access the Application
 
 Open `http://localhost:3000` in your browser.
+
+---
+
+## How to Use Skill Gap Analysis
+
+1. **Upload a resume** or select one from the history panel.
+2. The **Career Path Prediction** card will show your predicted roles.
+3. **Click on any predicted role** — you can click:
+   - The large **Predicted Role Match** box at the top.
+   - Any of the three **model cards** (LR / RF / XGBoost) in the multi-model comparison.
+   - Any role row in the **Role Probability Distribution** list (each has an "Analyze Gap ➔" badge).
+4. The **Skill Gap Analysis card** will slide in below showing:
+   - A **circular match gauge** with your overall score.
+   - **Available Skills** — what you already have.
+   - **Missing Skills** — what the role requires that's absent.
+   - **Actionable Recommendations** — specific steps to bridge each gap (tick them off as you complete them!).
+5. Click the **✕ close button** to dismiss the analysis and try a different role.
 
 ---
 
@@ -326,6 +388,43 @@ This will:
 | POST | `/api/upload` | Upload resume → runs all 3 ML models |
 | GET | `/api/analysis/:id` | Get specific analysis result |
 | GET | `/api/history` | Get user's resume history |
+| **POST** | **`/api/skill-gap`** | **Run skill gap analysis for a role** |
+
+#### `POST /api/skill-gap` — Request Body
+```json
+{
+  "skills": ["Python", "SQL", "Machine Learning"],
+  "target_role": "Data Scientist"
+}
+```
+#### Response
+```json
+{
+  "status": "success",
+  "skills": ["Python", "SQL", "Machine Learning"],
+  "gap_analysis": {
+    "match_percentage": 57.14,
+    "matched_skills": [
+      { "skill": "Python", "priority": "Critical" },
+      { "skill": "Machine Learning", "priority": "Critical" },
+      { "skill": "SQL", "priority": "High" }
+    ],
+    "missing_skills": [
+      { "skill": "Statistics", "priority": "High" },
+      { "skill": "Data Visualization", "priority": "Moderate" },
+      { "skill": "Deep Learning", "priority": "Moderate" },
+      { "skill": "NLP", "priority": "Low" }
+    ],
+    "priority_gaps": [
+      {
+        "skill": "Statistics",
+        "priority": "High",
+        "suggestion": "Practice complex SQL queries..."
+      }
+    ]
+  }
+}
+```
 
 ### Admin (JWT + Admin Role Required)
 | Method | Endpoint | Description |
