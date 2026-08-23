@@ -8,12 +8,19 @@ import AccuracyCard from '../components/AccuracyCard';
 import HistoryTable from '../components/HistoryTable';
 import Footer from '../components/Footer';
 import { resumeService } from '../services/api';
+import SkillGapAnalysis from '../components/SkillGapAnalysis';
 
 export default function Dashboard({ user }) {
   const [currentAnalysis, setCurrentAnalysis] = useState(null);
   const [history, setHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
   const [allMetrics, setAllMetrics] = useState(null);
+
+  // Skill Gap States
+  const [selectedRoleForGap, setSelectedRoleForGap] = useState(null);
+  const [gapAnalysisData, setGapAnalysisData] = useState(null);
+  const [gapLoading, setGapLoading] = useState(false);
+  const [gapError, setGapError] = useState(null);
 
   const fetchHistory = async () => {
     try {
@@ -55,6 +62,11 @@ export default function Dashboard({ user }) {
 
   const handleAnalysisComplete = (data) => {
     setCurrentAnalysis(data);
+    // Reset skill gap state for new resume
+    setSelectedRoleForGap(null);
+    setGapAnalysisData(null);
+    setGapError(null);
+
     // Update allMetrics if the API returned them
     if (data.all_metrics) {
       setAllMetrics(data.all_metrics);
@@ -78,10 +90,42 @@ export default function Dashboard({ user }) {
       green_flags: item.green_flags,
       red_flags: item.red_flags
     });
+    // Reset skill gap state for history item selection
+    setSelectedRoleForGap(null);
+    setGapAnalysisData(null);
+    setGapError(null);
+
     const elem = document.getElementById('analysis-report-section');
     if (elem) {
       elem.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleRoleClick = async (roleName) => {
+    setSelectedRoleForGap(roleName);
+    setGapLoading(true);
+    setGapError(null);
+    setGapAnalysisData(null);
+
+    const skills = currentAnalysis?.parsed_entities?.skills || [];
+    
+    try {
+      const data = await resumeService.getSkillGap(skills, roleName);
+      setGapAnalysisData(data);
+    } catch (err) {
+      console.error('Failed to compute skill gap:', err);
+      setGapError(err.response?.data?.message || 'Failed to fetch skill gap analysis. Please try again.');
+    } finally {
+      setGapLoading(false);
+    }
+
+    // Scroll to the skill gap details card
+    setTimeout(() => {
+      const elem = document.getElementById('skill-gap-analysis-card');
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 100);
   };
 
   // Determine the best model name for display
@@ -132,7 +176,23 @@ export default function Dashboard({ user }) {
             <PredictionCard
               prediction={currentAnalysis.prediction}
               allPredictions={currentAnalysis.all_predictions || null}
+              onRoleClick={handleRoleClick}
             />
+
+            {/* Skill Gap Analysis Report */}
+            {selectedRoleForGap && (
+              <SkillGapAnalysis
+                roleName={selectedRoleForGap}
+                data={gapAnalysisData}
+                loading={gapLoading}
+                error={gapError}
+                onClose={() => {
+                  setSelectedRoleForGap(null);
+                  setGapAnalysisData(null);
+                  setGapError(null);
+                }}
+              />
+            )}
 
             {/* Flags Grid */}
             <div className="flags-grid">

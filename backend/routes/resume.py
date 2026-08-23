@@ -147,3 +147,23 @@ def get_analysis(current_user, resume_id):
 def get_history(current_user):
     resumes = ResumeModel.get_by_user(current_user['id'])
     return jsonify({"resumes": resumes}), 200
+
+@resume_bp.route('/skill-gap', methods=['POST'])
+@token_required
+def get_skill_gap(current_user):
+    data = request.get_json() or {}
+    skills = data.get('skills', [])
+    target_role = data.get('target_role')
+    
+    if not target_role:
+        return jsonify({'message': 'target_role is required'}), 400
+        
+    from services.skill_gap import analyze_skill_gap
+    gap_analysis = analyze_skill_gap(skills, target_role)
+    
+    return jsonify({
+        "status": "success",
+        "skills": skills,
+        "gap_analysis": gap_analysis
+    }), 200
+

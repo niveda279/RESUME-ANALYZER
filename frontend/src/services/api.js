@@ -69,6 +69,10 @@ export const resumeService = {
     const res = await api.get('/ml-comparison');
     return res.data;
   },
+  getSkillGap: async (skills, targetRole) => {
+    const res = await api.post('/skill-gap', { skills, target_role: targetRole });
+    return res.data;
+  },
 };
 
 export const adminService = {

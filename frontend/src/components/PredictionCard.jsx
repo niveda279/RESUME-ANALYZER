@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function PredictionCard({ prediction, allPredictions }) {
+export default function PredictionCard({ prediction, allPredictions, onRoleClick }) {
   const [activeModel, setActiveModel] = useState('best');
 
   if (!prediction && !allPredictions) return null;
@@ -89,23 +89,30 @@ export default function PredictionCard({ prediction, allPredictions }) {
       )}
 
       {/* Prediction Display */}
-      <div style={{
-        background: 'var(--light)',
-        border: '1px solid var(--border)',
-        borderRadius: '10px',
-        padding: '20px',
-        textAlign: 'center',
-        marginBottom: '20px'
-      }}>
+      <div 
+        onClick={() => predicted_role && onRoleClick && onRoleClick(predicted_role)}
+        className="prediction-card-main-box"
+        style={{
+          background: 'var(--light)',
+          border: '1px solid var(--border)',
+          borderRadius: '10px',
+          padding: '20px',
+          textAlign: 'center',
+          marginBottom: '20px',
+          cursor: 'pointer',
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+        title={`Click to analyze skill gap for ${predicted_role}`}
+      >
         <div style={{ fontSize: '12px', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '.04em', fontWeight: '600' }}>
-          Predicted Role Match
+          Predicted Role Match (Click to analyze skills)
         </div>
-        <div style={{ fontSize: '28px', fontWeight: '700', fontFamily: 'Poppins, sans-serif', color: 'var(--dark)', margin: '6px 0' }}>
+        <div className="predicted-role-title-hover" style={{ fontSize: '28px', fontWeight: '700', fontFamily: 'Poppins, sans-serif', color: 'var(--primary-dark)', margin: '6px 0', textDecoration: 'underline' }}>
           {predicted_role || 'N/A'}
         </div>
         {confidence != null && (
-          <div style={{ fontSize: '13px', color: 'var(--primary-dark)', fontWeight: '600' }}>
-            Classifier Confidence: {confidence}%
+          <div style={{ fontSize: '13px', color: 'var(--dark-soft)', fontWeight: '600' }}>
+            Classifier Confidence: {confidence}% · <span style={{ color: 'var(--primary)', textDecoration: 'underline' }}>View Skill Gap Analysis ➔</span>
           </div>
         )}
       </div>
@@ -126,21 +133,29 @@ export default function PredictionCard({ prediction, allPredictions }) {
             const p = allPredictions[m.key] || {};
             const isBest = m.key === bestModelKey;
             return (
-              <div key={m.key} style={{
-                background: isBest ? 'rgba(99,102,241,0.05)' : 'var(--light)',
-                border: isBest ? '2px solid var(--primary)' : '1px solid var(--border)',
-                borderRadius: '10px',
-                padding: '12px',
-                textAlign: 'center',
-                cursor: 'pointer',
-                transition: 'transform 0.15s ease'
-              }}
-                onClick={() => setActiveModel(m.key)}
+              <div key={m.key} 
+                className="multi-model-card-hover"
+                style={{
+                  background: isBest ? 'rgba(99,102,241,0.05)' : 'var(--light)',
+                  border: isBest ? '2px solid var(--primary)' : '1px solid var(--border)',
+                  borderRadius: '10px',
+                  padding: '12px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onClick={() => {
+                  setActiveModel(m.key);
+                  if (p.predicted_role && onRoleClick) {
+                    onRoleClick(p.predicted_role);
+                  }
+                }}
+                title={`Select ${m.label} prediction and view skill gap`}
               >
                 <div style={{ fontSize: '10.5px', color: m.color, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '.04em', marginBottom: '4px' }}>
                   {isBest && '★ '}{m.label}
                 </div>
-                <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--dark)', marginBottom: '2px' }}>
+                <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--primary-dark)', marginBottom: '2px', textDecoration: 'underline' }}>
                   {p.predicted_role || 'N/A'}
                 </div>
                 <div style={{ fontSize: '11.5px', color: 'var(--muted)' }}>
@@ -156,15 +171,28 @@ export default function PredictionCard({ prediction, allPredictions }) {
       {breakdown && breakdown.length > 0 && (
         <div className="skills-card" style={{ marginBottom: 0 }}>
           <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--dark)', marginBottom: '12px' }}>
-            Role Probability Distribution
+            Role Probability Distribution (Click any role to see its Skill Gap Analysis)
           </div>
           {breakdown.map((item, idx) => (
-            <div key={idx} className="skill-row">
-              <div className="sr-top">
-                <span className="sname">{item.role}</span>
-                <span className="sval">{item.probability}%</span>
+            <div key={idx} 
+              className="skill-row predicted-role-row-clickable"
+              onClick={() => onRoleClick && onRoleClick(item.role)}
+              style={{
+                cursor: 'pointer',
+                padding: '8px 12px',
+                borderRadius: '8px',
+                transition: 'all 0.2s ease',
+                margin: '4px -12px'
+              }}
+              title={`Click to analyze skill gap for ${item.role}`}
+            >
+              <div className="sr-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="sname" style={{ color: 'var(--primary-dark)', fontWeight: '600', textDecoration: 'underline' }}>{item.role}</span>
+                <span className="sval" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {item.probability}% <span className="view-gap-badge" style={{ fontSize: '10px', background: 'var(--primary-tint)', color: 'var(--primary-dark)', padding: '2px 8px', borderRadius: '20px', fontWeight: '700', border: '1px solid rgba(99,102,241,0.2)' }}>Analyze Gap ➔</span>
+                </span>
               </div>
-              <div className="bar-track">
+              <div className="bar-track" style={{ marginTop: '8px' }}>
                 <div className="bar-fill" style={{ width: `${item.probability}%` }}></div>
               </div>
             </div>

@@ -47,6 +47,50 @@ COMPETENCY_MAPPING = {
         "AWS": "High",
         "Python": "Moderate",
         "Bash": "Moderate"
+    },
+    "Business Analyst": {
+        "SQL": "Critical",
+        "Jira": "Critical",
+        "Requirements Gathering": "High",
+        "Agile": "High",
+        "Excel": "High",
+        "UML": "Moderate",
+        "User Stories": "Moderate"
+    },
+    "ML Engineer": {
+        "Python": "Critical",
+        "PyTorch": "Critical",
+        "TensorFlow": "Critical",
+        "Scikit-Learn": "High",
+        "Docker": "High",
+        "MLOps": "Moderate",
+        "MLflow": "Moderate"
+    },
+    "Product Manager": {
+        "Product Roadmap": "Critical",
+        "User Research": "Critical",
+        "Agile": "High",
+        "Jira": "High",
+        "Figma": "Moderate",
+        "Product Strategy": "Moderate"
+    },
+    "Cyber Security Specialist": {
+        "Network Security": "Critical",
+        "Penetration Testing": "Critical",
+        "SIEM": "High",
+        "Wireshark": "High",
+        "Firewalls": "High",
+        "Cryptography": "Moderate",
+        "Vulnerability Assessment": "Moderate"
+    },
+    "Cloud Architect": {
+        "AWS": "Critical",
+        "Azure": "Critical",
+        "Terraform": "High",
+        "Kubernetes": "High",
+        "CloudFormation": "High",
+        "Microservices": "Moderate",
+        "Serverless": "Moderate"
     }
 }
 
@@ -76,7 +120,35 @@ def get_actionable_suggestion(skill: str, priority: str, role: str) -> str:
         "React": "Create a portfolio website or a complex single-page application to demonstrate state management.",
         "Java": "Build a scalable backend API using Spring Boot to showcase enterprise-level skills.",
         "Docker": "Containerize a small web application and write a multi-stage Dockerfile.",
-        "Kubernetes": "Set up a local Minikube cluster and deploy a microservices architecture."
+        "Kubernetes": "Set up a local Minikube cluster and deploy a microservices architecture.",
+        "PyTorch": "Take the PyTorch Deep Learning course. Build and train neural nets for computer vision or NLP.",
+        "TensorFlow": "Complete the TensorFlow Developer Certificate course and build standard models.",
+        "Scikit-Learn": "Build machine learning pipelines using Scikit-Learn for preprocessing, classifier training, and validation.",
+        "MLOps": "Familiarize yourself with MLOps concepts like model registry, CI/CD for ML, and drift monitoring.",
+        "MLflow": "Learn how to use MLflow to track experiments, log model parameters, and register trained models.",
+        "Jira": "Learn how to manage backlogs, set up sprints, and write developer tasks and bugs in Jira.",
+        "Agile": "Get certified in Scrum/Agile (e.g. PSM I) or learn Agile lifecycle management workflows.",
+        "Requirements Gathering": "Practice interviewing stakeholders, cataloging requirements, and mapping specifications.",
+        "Excel": "Complete an advanced Excel training course covering pivot tables, INDEX-MATCH, and macros.",
+        "UML": "Draw system logic mappings, activity flows, and class definitions using UML diagram standards.",
+        "User Stories": "Practice writing high-quality User Stories with detailed User Value statements and Acceptance Criteria.",
+        "Product Roadmap": "Read product management case studies, define MVPs, and practice roadmapping with tools like Productboard.",
+        "User Research": "Learn user interview techniques, survey design, and how to analyze qualitative user feedback.",
+        "Figma": "Learn core Figma features including autolayout, components, and interactive prototypes for design design.",
+        "Product Strategy": "Understand metrics frameworks like North Star, and study strategy templates (e.g., SWOT, Lean Canvas).",
+        "Network Security": "Study CompTIA Security+ materials, firewall configurations, and secure networking architectures.",
+        "Penetration Testing": "Register on HackTheBox or TryHackMe, and practice attacking simulated vulnerabilities using Metasploit.",
+        "SIEM": "Learn how to collect and analyze security logs using open platform systems like Splunk or ELK Stack.",
+        "Wireshark": "Practice capturing networks packets, inspecting headers, and filtering traffic sequences on Wireshark.",
+        "Firewalls": "Configure firewalls policies, rule evaluation chains, and intrusion prevention setups.",
+        "Cryptography": "Understand cryptographic concepts such as symmetric/asymmetric encryption, hashing, and TLS certs.",
+        "Vulnerability Assessment": "Learn how to scan ports and analyze configurations using networks scanners like Nessus.",
+        "AWS": "Study for the AWS Certified Solutions Architect Associate exam, deploying EC2, RDS, VPC, and S3 resources.",
+        "Azure": "Study for Azure Solutions Architect certifications and deploy virtual machines, storage, and AKS.",
+        "Terraform": "Write Infrastructure as Code configurations to deploy cloud resources in AWS or Azure.",
+        "CloudFormation": "Learn how to write JSON/YAML CloudFormation templates to provision standard AWS architectures.",
+        "Microservices": "Understand microservice design patterns (e.g., API gateway, CQRS) and backend communications (REST, gRPC, queues).",
+        "Serverless": "Build serverless microservices using AWS Lambda, API Gateway, and DynamoDB."
     }
     
     default_suggestion = f"Identify top resources or courses online to build foundational knowledge in {skill}. Start a small side project to apply it practically."
