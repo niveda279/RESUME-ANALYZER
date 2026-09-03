@@ -12,7 +12,7 @@ It ships as a fully-tested Python library with a CLI, a FastAPI/Flask dual-serve
 |-----------|-------|---------------|
 | **M1** | Foundation | SpaCy parser, Green/Red flags, SQLite, React UI |
 | **M2** | Auth & ML | JWT auth, 3-model pipeline (LR + RF + XGBoost), Admin dashboard |
-| **M3** | Observability | FastAPI `/api/v2`, MLflow model registry, Streamlit prototype, GitHub Actions CI |
+| **M3** | Observability | FastAPI `/api/v2`, MLflow model registry, SkillGap Analysis, Streamlit prototype, GitHub Actions CI |
 | **M4** | Production | pip package, Click CLI, enhanced Streamlit (Cohort, Comparison, PDF), 97-test suite, full docs |
 
 ---
