@@ -40,3 +40,24 @@ trained_model/*.joblib
 # ngrok
 ngrok.zip
 tunnel.txt
+
+# Python packaging artifacts
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Pytest & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Temp test output files
+test_output.txt
+test_run_output.txt
+git_status.txt
+
+# MLflow local tracking
+mlflow.db
+mlruns/

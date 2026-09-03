@@ -9,7 +9,7 @@ from utils.ml_service import predict_all_models
 from models.resume import ResumeModel
 
 resume_bp = Blueprint('resume', __name__)
-ALLOWED_EXTENSIONS = {'pdf', 'docx', 'doc'}
+ALLOWED_EXTENSIONS = {'pdf', 'docx', 'doc', 'txt'}
 MAX_FILE_SIZE_MB = 10
 
 def allowed_file(filename):

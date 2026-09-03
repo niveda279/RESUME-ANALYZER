@@ -1,70 +1,114 @@
 # CareerCast — AI-Powered Resume Analyzer
 
-**CareerCast** is a production-ready, enterprise-grade **AI Resume Analyzer** that uses three trained Machine Learning models to predict career paths, evaluate resume quality, and provide actionable hiring insights — including an **interactive Skill Gap Analysis** that compares your resume's skills against any predicted role's requirements in real time.
+**CareerCast** is a production-ready, pip-installable **AI Resume Analyzer** that uses three trained Machine Learning models to predict career paths, evaluate resume quality, and provide actionable hiring insights — including an **interactive Skill Gap Analysis** that benchmarks your skills against any target role and generates a downloadable PDF report.
 
-The application features a modern enterprise UI, role-based JWT authentication (User & Admin), automated entity parsing (SpaCy & Regex), dynamic Green/Red Flag evaluation, a full multi-model ML comparison dashboard, and a clickable skill gap analysis card with an animated SVG match gauge and actionable improvement checklist.
+It ships as a fully-tested Python library with a CLI, a FastAPI/Flask dual-server backend, a React dashboard, an enhanced Streamlit review UI, and a CI/CD pipeline with 97 automated tests.
+
+---
+
+## Milestone Changelog
+
+| Milestone | Theme | Key Additions |
+|-----------|-------|---------------|
+| **M1** | Foundation | SpaCy parser, Green/Red flags, SQLite, React UI |
+| **M2** | Auth & ML | JWT auth, 3-model pipeline (LR + RF + XGBoost), Admin dashboard |
+| **M3** | Observability | FastAPI `/api/v2`, MLflow model registry, Streamlit prototype, GitHub Actions CI |
+| **M4** | Production | pip package, Click CLI, enhanced Streamlit (Cohort, Comparison, PDF), 97-test suite, full docs |
 
 ---
 
 ## Key Features
 
-### ✨ Milestone 3 — Interactive Skill Gap Analysis
-- **Click any predicted role** in the Career Path Prediction card to instantly trigger a skill gap analysis.
-- **Three clickable trigger points** in the Prediction Card:
-  - The **main role box** (primary prediction).
-  - Each **multi-model card** (Logistic Regression / Random Forest / XGBoost) — selects the model and starts analysis simultaneously.
-  - Every row in the **Role Probability Distribution** table — each has an "Analyze Gap ➔" badge.
-- **Analysis card shows:**
-  - 🟢 **Animated SVG ring gauge** — match percentage, color-coded (green ≥ 70%, amber ≥ 40%, red < 40%).
-  - ✅ **Available Skills** — green chips for resume skills that match the role's requirements.
-  - ❌ **Missing Required Skills** — red chips for Critical/High priority gaps, indigo for Moderate/Low.
-  - 📋 **Actionable Recommendations checklist** — one task per skill gap, with specific learning advice and a checkbox you can tick off as you learn.
-- **10 roles fully mapped** with curated competency requirements and suggestions.
-- State resets automatically when a new resume is uploaded or a history item is selected.
+### ✨ Milestone 4 — Production-Ready Package & Tooling
 
-### 1. Multi-Model Machine Learning Pipeline
-- **Three ML models trained and compared:**
-  - **Logistic Regression** — Original baseline model (fast, interpretable)
-  - **Random Forest** — Ensemble classifier with feature importance
-  - **XGBoost** — Gradient boosted trees (high accuracy)
-- **Best model auto-selected** by F1-score from Stratified K-Fold Cross-Validation
-- **Prediction UI** shows results from all 3 models with confidence scores
-- **Feature Importance** visualized for Random Forest and XGBoost
+#### 📦 pip-Installable Python Library
+```bash
+pip install -e .                      # editable install from repo root
+pip install -e ".[backend,streamlit]" # with all optional extras
+```
+Public API after install:
+```python
+from careercast import analyze_resume, predict_career, analyze_skill_gap
 
-### 2. Model Comparison Dashboard
-| Model | Accuracy | Precision | Recall | F1-Score |
-|---|---|---|---|---|
-| Logistic Regression | ~94% | ~94% | ~94% | ~94% |
-| Random Forest | ~98% | ~98% | ~98% | ~98% |
-| XGBoost | ~96% | ~96% | ~96% | ~96% |
+parsed = analyze_resume("resume.pdf")
+pred   = predict_career("Python developer with ML experience...")
+gap    = analyze_skill_gap(["Python", "SQL"], "Data Scientist")
+```
 
-> Metrics are calculated from 5-Fold Stratified Cross-Validation on the actual dataset. Values shown above are representative — run `python backend/train_model.py` to see your exact results.
+#### 🖥️ `careercast` CLI
+Installed automatically with the package (`careercast` entry-point):
 
-### 3. Modern Enterprise Light Theme UI
-- Clean white & light gray palette with professional indigo/blue accents
-- Responsive layout with micro-animations and interactive elements
-- High legibility, crisp typography (Inter font family), optimal whitespace
-- Glassmorphism-inspired cards with smooth slide-in animations
+| Command | Description |
+|---------|-------------|
+| `careercast analyze <file>` | Parse a resume — extract name, email, skills, education, etc. |
+| `careercast predict <file>` | Predict career role (single model or all 3) |
+| `careercast skill-gap <file> --role "Data Scientist"` | Full skill gap report against a target role |
+| `careercast models` | Show performance metrics for all trained models |
+| `careercast version` | Print the installed package version |
 
-### 4. Role-Based JWT Authentication
-- **User Role**: Register, login, upload resumes (PDF/DOCX), view predictions, view Green/Red flag analyses, examine prediction history, and edit profile.
-- **Admin Role**: Executive dashboard with aggregate telemetry (Total Users, Total Uploaded Resumes), ML model comparison table, user management (delete users), and resume management (delete resume records).
-- Secure password hashing using `werkzeug.security` and standard `JWT` bearer tokens.
+```bash
+# Quick examples
+careercast analyze resume.pdf
+careercast predict resume.pdf --all-models --json-output
+careercast skill-gap resume.pdf --role "ML Engineer"
+careercast models
+```
 
-### 5. Resume Entity Parsing
-- Powered by SpaCy NLP with robust fallback regex rules.
-- Extracts: Name, Email, Phone, Skills, Education, Experience, Certifications, Projects.
-- Displays extracted skills using clean, color-coded tags.
+#### 📊 Enhanced Streamlit Review UI (4 tabs)
 
-### 6. Dynamic Green Flags & Red Flags
-- **Green Flags**: Detects strengths (e.g., ✔ Strong technical skill set, ✔ Relevant internship experience, ✔ Multiple projects, ✔ Certifications, ✔ ATS-friendly formatting).
-- **Red Flags**: Highlights weaknesses (e.g., ✖ Missing GitHub profile, ✖ Missing LinkedIn profile, ✖ No measurable achievements, ✖ Missing certifications).
+| Tab | What it does |
+|-----|-------------|
+| **📄 Resume Analysis** | Upload → call FastAPI v2 → prediction + skill gap + 3-model breakdown |
+| **📊 Cohort Analytics** | Live aggregate stats from SQLite: role distribution, confidence tiers, top skills across all resumes |
+| **🔀 Career Comparison** | Side-by-side required-skills matrix for up to 4 roles simultaneously |
+| **📥 PDF Export** | One-click professional PDF report (ReportLab) — candidate info, prediction, matched/missing skills, priority recommendations |
+
+#### 🧪 97-Test Automated Suite
+```
+tests/
+├── conftest.py              Shared fixtures (Flask client, JWT tokens, resume fixtures)
+├── unit/                    41 tests — parser, flags, skill gap logic
+├── integration/             37 tests — auth, FastAPI, ML pipeline, resume upload
+└── regression/              19 tests — Milestone 1–3 stability guard
+```
+```
+pytest tests/
+======================= 97 passed, 1 warning in 12.08s
+```
+
+#### 📚 Documentation Suite (`docs/`)
+
+| File | Description |
+|------|-------------|
+| `API_REFERENCE.md` | All Flask & FastAPI endpoints with request/response schemas |
+| `CLI.md` | Full CLI command reference and examples |
+| `ARCHITECTURE.md` | System architecture diagrams and data flow |
+| `DATASET_CARD.md` | Dataset provenance, stats, bias considerations |
+| `MODEL_CARD_LOGISTIC_REGRESSION.md` | LR model card |
+| `MODEL_CARD_RANDOM_FOREST.md` | RF model card |
+| `MODEL_CARD_XGBOOST.md` | XGBoost model card |
+| `TESTING.md` | Test strategy, coverage, running instructions |
+| `DEPLOYMENT.md` | Local, Docker, Render, Streamlit Cloud deploy guides |
+
+---
+
+### ✨ Milestone 3 Highlights
+- **FastAPI Backend** (`/api/v2`) — modern async REST API alongside Flask
+- **MLflow Model Registry** — experiment tracking, metric logging, model versioning
+- **GitHub Actions CI** — automated pipeline with model accuracy gate
+
+### ✨ Milestone 1–2 Highlights
+- **Multi-Model ML Pipeline**: Logistic Regression, Random Forest, XGBoost — best auto-selected by CV F1-score
+- **Role-Based JWT Auth**: User + Admin roles, protected routes, secure password hashing
+- **Resume Entity Parsing**: SpaCy NLP + regex — Name, Email, Phone, Skills, Education, Certifications, Projects
+- **Dynamic Green/Red Flags**: Strengths and weaknesses automatically detected from resume content
+- **React Dashboard**: Prediction cards, history, admin panel, animated skill gap analysis
 
 ---
 
 ## Skill Gap Analysis — Supported Roles
 
-The Skill Gap engine covers all 10 career categories from the ML classifier. Each role has curated required competencies with priority levels:
+All 10 ML classifier categories are fully mapped with curated competency requirements:
 
 | Role | Critical Skills | High Skills | Moderate Skills |
 |---|---|---|---|
@@ -86,36 +130,27 @@ The Skill Gap engine covers all 10 career categories from the ML classifier. Eac
 ### Dataset
 - **Location**: `dataset/resumes_dataset.csv`
 - **Size**: 100 resume text samples across 10 career categories
-- **Format**: `text` (resume content) and `label` (career category) columns
-- **Classes**: Business Analyst, Cloud Architect, Cyber Security Specialist, Data Analyst, Data Scientist, DevOps Engineer, ML Engineer, Product Manager, Software Engineer, Web Developer
+- **Format**: `text` (resume content) + `label` (career category) columns
 
 ### Preprocessing Pipeline
-1. Drop missing values and duplicate resume texts
+1. Drop nulls & duplicate texts
 2. TF-IDF Vectorization (`ngram_range=(1,2)`, `max_features=2000`, `sublinear_tf=True`, `stop_words='english'`)
-3. **No data leakage**: Vectorizer is fit only on the training fold during CV (using `sklearn.Pipeline`)
+3. **No data leakage** — vectorizer fitted only on training fold inside `sklearn.Pipeline`
 
 ### Evaluation Strategy
 - **Stratified K-Fold Cross-Validation** (k = min(5, smallest class count))
-- Metrics averaged across all folds: Accuracy, Precision (weighted), Recall (weighted), F1-Score (weighted)
-- **Best model automatically selected** by highest CV F1-Score
+- Metrics averaged across folds: Accuracy, Precision (weighted), Recall (weighted), F1-Score (weighted)
+- **Best model auto-selected** by highest CV F1-Score
 
-### Models
+### Model Comparison Dashboard
 
-#### Logistic Regression (Baseline)
-- Algorithm: `sklearn.linear_model.LogisticRegression`
-- Hyperparameters: `max_iter=2000`, `C=1.0`
-- Feature importance: Mean absolute coefficient magnitude per feature
+| Model | Accuracy | Precision | Recall | F1-Score |
+|---|---|---|---|---|
+| Logistic Regression | ~94% | ~94% | ~94% | ~94% |
+| Random Forest | ~98% | ~98% | ~98% | ~98% |
+| XGBoost | ~96% | ~96% | ~96% | ~96% |
 
-#### Random Forest
-- Algorithm: `sklearn.ensemble.RandomForestClassifier`
-- Hyperparameters: `n_estimators=300`, `random_state=42`
-- Feature importance: Gini importance from trained trees
-
-#### XGBoost
-- Algorithm: `xgboost.XGBClassifier`
-- Hyperparameters: `n_estimators=300`, `max_depth=6`, `learning_rate=0.1`, `subsample=0.8`, `colsample_bytree=0.8`
-- Labels are encoded with `LabelEncoder` before training
-- Compatible with XGBoost >= 2.0.0
+> Metrics computed from 5-Fold Stratified Cross-Validation. Run `python backend/train_model.py` for your exact numbers.
 
 ### Saved Model Files
 | File | Description |
@@ -134,78 +169,73 @@ The Skill Gap engine covers all 10 career categories from the ML classifier. Eac
 
 ```
 CareerCast/
+├── careercast/                        # pip-installable package (Milestone 4)
+│   ├── __init__.py                    # Public API: analyze_resume, predict_career, analyze_skill_gap
+│   ├── cli.py                         # Click CLI — analyze, predict, skill-gap, models, version
+│   └── config.py                      # Centralized config (env-var driven)
 ├── backend/
-│   ├── app.py                     # Main Flask Server
-│   ├── main.py                    # FastAPI entry point (Milestone 3+)
-│   ├── train_model.py             # Reproducible training pipeline (all 3 models)
-│   ├── careercast.db              # SQLite database (auto-created)
+│   ├── app.py                         # Flask server (port 5000)
+│   ├── main.py                        # FastAPI server (port 8000, /api/v2)
+│   ├── train_model.py                 # Reproducible training pipeline (LR + RF + XGBoost)
+│   ├── careercast.db                  # SQLite database (auto-created)
 │   ├── routes/
-│   │   ├── auth.py                # Authentication endpoints (JWT)
-│   │   ├── resume.py              # Resume upload, parsing & prediction + /skill-gap
-│   │   └── admin.py               # Admin control panel endpoints
+│   │   ├── auth.py                    # JWT auth endpoints
+│   │   ├── resume.py                  # Upload, parsing, prediction, /skill-gap (PDF/DOCX/TXT)
+│   │   └── admin.py                   # Admin panel endpoints
 │   ├── models/
-│   │   ├── user.py                # User database model
-│   │   └── resume.py              # Resume database model
+│   │   ├── user.py                    # User DB model
+│   │   └── resume.py                  # Resume DB model
 │   ├── services/
-│   │   └── skill_gap.py           # Skill Gap Analysis logic + 10-role competency map
+│   │   └── skill_gap.py               # Skill Gap logic + 10-role competency map
 │   └── utils/
-│       ├── parser.py              # SpaCy/Regex resume text parser
-│       ├── ml_model.py            # Unified ML training pipeline (LR + RF + XGBoost)
-│       ├── ml_service.py          # Prediction service (multi-model, lazy-loaded)
-│       ├── feature_extractor.py   # Green Flags & Red Flags evaluator
-│       └── database.py            # SQLite schema & default seed data
+│       ├── parser.py                  # SpaCy/Regex resume parser
+│       ├── ml_model.py                # ML training pipeline
+│       ├── ml_service.py              # Multi-model prediction service (lazy-loaded)
+│       ├── feature_extractor.py       # Green Flags & Red Flags evaluator
+│       └── database.py                # SQLite schema & seed data
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── ResumeCard.jsx
-│   │   │   ├── GreenFlags.jsx
-│   │   │   ├── RedFlags.jsx
-│   │   │   ├── PredictionCard.jsx  # Multi-model tabs + clickable roles → Skill Gap
-│   │   │   ├── SkillGapAnalysis.jsx # NEW — SVG gauge, skill grids, checklist
-│   │   │   ├── ModelComparison.jsx # ML comparison table + feature importance charts
-│   │   │   ├── AccuracyCard.jsx
-│   │   │   └── HistoryTable.jsx
+│   │   │   ├── PredictionCard.jsx     # Multi-model tabs + clickable roles → Skill Gap
+│   │   │   ├── SkillGapAnalysis.jsx   # SVG gauge, skill grids, checklist
+│   │   │   ├── ModelComparison.jsx    # ML comparison table + feature importance
+│   │   │   └── ...                    # Navbar, ResumeCard, GreenFlags, RedFlags, etc.
 │   │   ├── pages/
-│   │   │   ├── Login.jsx
-│   │   │   ├── Register.jsx
-│   │   │   ├── Dashboard.jsx       # Manages Skill Gap state + auto-scroll
-│   │   │   ├── UploadResume.jsx
-│   │   │   ├── Analysis.jsx
-│   │   │   ├── AdminDashboard.jsx  # ML model comparison + admin management
-│   │   │   └── Profile.jsx
-│   │   ├── services/
-│   │   │   └── api.js              # Axios API client (includes getSkillGap)
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css               # Design system — Glassmorphism & Indigo theme
-│   ├── package.json
-│   ├── index.html
+│   │   │   ├── Dashboard.jsx          # Manages Skill Gap state + auto-scroll
+│   │   │   ├── AdminDashboard.jsx     # Admin ML comparison + management
+│   │   │   └── ...
+│   │   └── index.css                  # Design system — Glassmorphism & Indigo theme
 │   └── vite.config.js
 ├── streamlit/
-│   └── review_app.py               # Streamlit prototype UI for Milestone 3
+│   └── review_app.py                  # Enhanced 4-tab Streamlit UI (Milestone 4)
+├── tests/                             # 97-test suite (Milestone 4)
+│   ├── conftest.py                    # Shared fixtures
+│   ├── unit/                          # Parser, flags, skill gap unit tests
+│   ├── integration/                   # Auth, FastAPI, ML, resume endpoint tests
+│   └── regression/                   # Milestone 1–3 stability guard
+├── docs/                              # Full documentation suite (Milestone 4)
+│   ├── API_REFERENCE.md
+│   ├── CLI.md
+│   ├── ARCHITECTURE.md
+│   ├── DATASET_CARD.md
+│   ├── MODEL_CARD_LOGISTIC_REGRESSION.md
+│   ├── MODEL_CARD_RANDOM_FOREST.md
+│   ├── MODEL_CARD_XGBOOST.md
+│   ├── TESTING.md
+│   └── DEPLOYMENT.md
 ├── .github/
 │   └── workflows/
-│       └── ci.yml                  # GitHub Actions CI pipeline with Accuracy Gate
+│       ├── ci.yml                     # CI pipeline — install, train, CLI verify, 97 tests, coverage
+│       └── deploy.yml                 # Render deployment workflow
 ├── dataset/
-│   └── resumes_dataset.csv         # Training dataset (100 samples, 10 classes)
-├── trained_model/
-│   ├── model.joblib                # Logistic Regression
-│   ├── vectorizer.joblib           # TF-IDF Vectorizer
-│   ├── rf_model.joblib             # Random Forest
-│   ├── xgb_model.joblib            # XGBoost
-│   ├── label_encoder.joblib        # Label encoder for XGBoost
-│   ├── all_metrics.json            # All 3 model metrics
-│   └── metrics.json                # LR metrics (backward-compat)
-├── uploads/                        # User upload directory (auto-created)
-├── README.md
-├── requirements.txt                # Python dependencies
-├── package.json                    # Root npm scripts
-├── start_backend.ps1               # One-command backend launcher (Windows)
-├── start_frontend.ps1              # One-command frontend launcher (Windows)
-├── render.yaml                     # Render.com deployment config
-├── .env.example                    # Environment variables template
-├── .gitignore
+│   └── resumes_dataset.csv
+├── trained_model/                     # Auto-generated by train_model.py
+├── pyproject.toml                     # Package config — pip install, entry points, extras
+├── backend/requirements.txt           # All Python dependencies incl. reportlab, xgboost, click
+├── render.yaml                        # Render.com deployment config
+├── .env.example                       # Environment variables template
+├── start_backend.ps1                  # One-command backend launcher (Windows)
+├── start_frontend.ps1                 # One-command frontend launcher (Windows)
 └── LICENSE
 ```
 
@@ -213,18 +243,24 @@ CareerCast/
 
 ## Tech Stack
 
-- **Backend**: Python 3.10+, Flask 3.x, FastAPI, SQLite3, PyJWT, Werkzeug, Gunicorn
-- **Machine Learning**: Scikit-Learn, XGBoost >= 2.0, Joblib, Pandas, NumPy
-- **NLP & Parsing**: SpaCy (en_core_web_sm), PyPDF, Python-Docx
-- **Frontend**: React 18, Vite, React Router v6, Axios, Vanilla CSS
+| Layer | Technologies |
+|---|---|
+| **Python Package** | `setuptools`, `click >= 8.1`, `pyproject.toml` |
+| **Backend (Flask)** | Python 3.9+, Flask 3.x, SQLite3, PyJWT, Werkzeug, Gunicorn |
+| **Backend (FastAPI)** | FastAPI, Uvicorn, HTTPx, python-multipart |
+| **Machine Learning** | Scikit-Learn, XGBoost >= 2.0, Joblib, Pandas, NumPy, MLflow |
+| **NLP & Parsing** | SpaCy (en_core_web_sm), PyPDF, Python-Docx |
+| **Streamlit UI** | Streamlit >= 1.25, Altair >= 5.0, ReportLab >= 4.0 |
+| **Frontend** | React 18, Vite, React Router v6, Axios, Vanilla CSS |
+| **Testing** | pytest, pytest-cov, HTTPX (async FastAPI client) |
+| **CI/CD** | GitHub Actions |
 
 ---
 
 ## Setup & Running Instructions
 
 ### Prerequisites
-
-- Python 3.10+
+- Python 3.9+
 - Node.js 18+
 - pip
 
@@ -235,82 +271,114 @@ git clone https://github.com/niveda279/RESUME-ANALYZER.git
 cd RESUME-ANALYZER
 ```
 
-### 2. Backend Setup
+### 2. Install the Python Package
 
 ```bash
-# Install Python dependencies
-pip install -r requirements.txt
+# Editable install — registers the `careercast` CLI entry point
+pip install -e ".[backend,streamlit,dev]"
 
-# Download SpaCy English model
+# Download SpaCy language model
 python -m spacy download en_core_web_sm
 
 # Train all ML models
 python backend/train_model.py
-
-# Start the Flask backend
-python backend/app.py
 ```
 
-Or use the provided launcher script (Windows):
+### 3. Start the Flask Backend
+
+```bash
+python backend/app.py
+# Runs on http://127.0.0.1:5000
+```
+
+Or on Windows:
 ```powershell
 ./start_backend.ps1
 ```
 
-The backend runs on `http://127.0.0.1:5000`.
+### 4. Start the FastAPI Backend (optional, for Streamlit UI)
 
-### 3. Streamlit Review UI (Optional)
+```bash
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+# Runs on http://127.0.0.1:8000  (docs at /docs)
+```
 
-Open a new terminal:
+### 5. Streamlit Review UI
+
 ```bash
 streamlit run streamlit/review_app.py --server.port 8501
+# Runs on http://localhost:8501
 ```
-The Streamlit UI runs on `http://localhost:8501`.
 
-### 4. React Frontend Setup
-
-Open a new terminal:
+### 6. React Frontend
 
 ```bash
 cd frontend
 npm install
 npm run dev
+# Runs on http://localhost:3000
 ```
 
-Or use the provided launcher script (Windows):
+Or on Windows:
 ```powershell
 ./start_frontend.ps1
 ```
 
-The frontend runs on `http://localhost:3000`.
+---
 
-### 5. Access the Application
+## CLI Reference
 
-Open `http://localhost:3000` in your browser.
+```bash
+# Show version
+careercast version
+
+# Parse a resume
+careercast analyze resume.pdf
+careercast analyze resume.pdf --json-output
+
+# Predict career role
+careercast predict resume.pdf
+careercast predict resume.pdf --model random_forest
+careercast predict resume.pdf --all-models
+
+# Skill gap analysis (auto-detects role)
+careercast skill-gap resume.pdf
+# Against a specific role
+careercast skill-gap resume.pdf --role "Data Scientist"
+careercast skill-gap resume.pdf --role "ML Engineer" --json-output
+
+# Show trained model metrics
+careercast models
+careercast models --json-output
+```
+
+> All commands also accept `--text "raw text"` instead of a file path.
 
 ---
 
-## How to Use Skill Gap Analysis
+## Running Tests
 
-1. **Upload a resume** or select one from the history panel.
-2. The **Career Path Prediction** card will show your predicted roles.
-3. **Click on any predicted role** — you can click:
-   - The large **Predicted Role Match** box at the top.
-   - Any of the three **model cards** (LR / RF / XGBoost) in the multi-model comparison.
-   - Any role row in the **Role Probability Distribution** list (each has an "Analyze Gap ➔" badge).
-4. The **Skill Gap Analysis card** will slide in below showing:
-   - A **circular match gauge** with your overall score.
-   - **Available Skills** — what you already have.
-   - **Missing Skills** — what the role requires that's absent.
-   - **Actionable Recommendations** — specific steps to bridge each gap (tick them off as you complete them!).
-5. Click the **✕ close button** to dismiss the analysis and try a different role.
+```bash
+# Full suite
+pytest tests/
+
+# By category
+pytest tests/unit/        # 41 tests — parser, flags, skill gap logic
+pytest tests/integration/ # 37 tests — API, ML, auth
+pytest tests/regression/  # 19 tests — stability guard for M1–M3
+
+# With coverage report
+pytest tests/ --cov=backend --cov-report=term-missing
+```
+
+Expected output:
+```
+======================= 97 passed, 1 warning in 12.08s
+```
 
 ---
 
-## Model Training Instructions
-
-### Re-train All Models
-
-Run this whenever you update the dataset:
+## Model Training
 
 ```bash
 python backend/train_model.py
@@ -319,108 +387,68 @@ python backend/train_model.py
 This will:
 1. Load and clean `dataset/resumes_dataset.csv`
 2. Run 5-fold Stratified Cross-Validation for each model
-3. Print real Accuracy, Precision, Recall, F1-Score for each model
-4. Train final models on the full dataset
-5. Save all `.joblib` model files to `trained_model/`
-6. Update `trained_model/all_metrics.json` with actual metrics
-7. Automatically identify and save the best-performing model
+3. Train final models on the full dataset
+4. Save all `.joblib` files and update `trained_model/all_metrics.json`
+5. Automatically select and record the best-performing model
 
 ### Expected Output
-
 ```
 ============================================================
   CareerCast — ML Model Training Pipeline
 ============================================================
-
 [INFO] Dataset: 100 samples, 10 classes
-[INFO] Using 5-fold Stratified Cross-Validation
-[INFO] Evaluating Logistic Regression (CV)...
 [INFO] LR  CV Accuracy: 94.0% | F1: 93.6%
-[INFO] Evaluating Random Forest (CV)...
 [INFO] RF  CV Accuracy: 98.0% | F1: 97.87%
-[INFO] Evaluating XGBoost (CV)...
 [INFO] XGB CV Accuracy: 96.0% | F1: 95.73%
-[INFO] Training final models on full dataset...
 [INFO] Best model (by F1): Random Forest
-
-  Logistic Regression:
-    Accuracy:  94.0%
-    F1 Score:  93.6%
-
-  Random Forest:
-    Accuracy:  98.0%
-    F1 Score:  97.87%
-
-  XGBoost:
-    Accuracy:  96.0%
-    F1 Score:  95.73%
-
-  [BEST] Best Model (by F1): Random Forest
 ```
 
 ---
 
 ## API Endpoints
 
-### Public
+### Flask API — `http://127.0.0.1:5000`
+
+#### Public
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/health` | Health check with model info |
-| GET | `/api/ml-comparison` | All 3 model metrics (public) |
+| GET | `/api/ml-comparison` | All 3 model metrics |
 
-### Authentication
+#### Authentication
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/register` | Register new user |
-| POST | `/api/login` | Login and get JWT token |
-| GET | `/api/profile` | Get current user profile |
+| POST | `/api/login` | Login → get JWT token |
+| GET | `/api/profile` | Current user profile |
 | POST | `/api/logout` | Logout |
 
-### Resume (JWT Required)
+#### Resume (JWT Required)
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/upload` | Upload resume → runs all 3 ML models |
+| POST | `/api/upload` | Upload resume (PDF/DOCX/TXT) → runs all 3 ML models |
 | GET | `/api/analysis/:id` | Get specific analysis result |
 | GET | `/api/history` | Get user's resume history |
-| **POST** | **`/api/skill-gap`** | **Run skill gap analysis for a role** |
+| POST | `/api/skill-gap` | Run skill gap analysis for a role |
 
-#### `POST /api/skill-gap` — Request Body
+**`POST /api/skill-gap`**
 ```json
-{
-  "skills": ["Python", "SQL", "Machine Learning"],
-  "target_role": "Data Scientist"
-}
-```
-#### Response
-```json
+// Request
+{ "skills": ["Python", "SQL", "Machine Learning"], "target_role": "Data Scientist" }
+
+// Response
 {
   "status": "success",
-  "skills": ["Python", "SQL", "Machine Learning"],
   "gap_analysis": {
     "match_percentage": 57.14,
-    "matched_skills": [
-      { "skill": "Python", "priority": "Critical" },
-      { "skill": "Machine Learning", "priority": "Critical" },
-      { "skill": "SQL", "priority": "High" }
-    ],
-    "missing_skills": [
-      { "skill": "Statistics", "priority": "High" },
-      { "skill": "Data Visualization", "priority": "Moderate" },
-      { "skill": "Deep Learning", "priority": "Moderate" },
-      { "skill": "NLP", "priority": "Low" }
-    ],
-    "priority_gaps": [
-      {
-        "skill": "Statistics",
-        "priority": "High",
-        "suggestion": "Practice complex SQL queries..."
-      }
-    ]
+    "matched_skills": [{"skill": "Python", "priority": "Critical"}, ...],
+    "missing_skills": [{"skill": "Statistics", "priority": "High"}, ...],
+    "priority_gaps": [{"skill": "Statistics", "priority": "High", "suggestion": "..."}]
   }
 }
 ```
 
-### Admin (JWT + Admin Role Required)
+#### Admin (JWT + Admin Role)
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/admin/stats` | Platform statistics |
@@ -429,6 +457,17 @@ This will:
 | GET | `/api/admin/resumes` | All resumes |
 | DELETE | `/api/admin/resume/:id` | Delete resume |
 | GET | `/api/admin/ml-metrics` | Full ML comparison metrics |
+
+### FastAPI — `http://127.0.0.1:8000/api/v2`
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/v2/health` | Health check |
+| POST | `/api/v2/predict` | Upload file → predict career role (all 3 models) |
+| POST | `/api/v2/skill-gap` | JSON skill gap analysis |
+| POST | `/api/v2/recommendation` | Multi-model recommendation |
+
+> Interactive docs: `http://127.0.0.1:8000/docs`
 
 ---
 
@@ -442,6 +481,10 @@ SECRET_KEY=your-secret-key-change-in-production
 
 # Flask environment
 FLASK_ENV=development
+
+# Streamlit — override API and DB paths
+API_URL=http://127.0.0.1:5000/api/v2
+DB_PATH=backend/careercast.db
 ```
 
 > ⚠️ **Never commit `.env` to version control.** It's excluded by `.gitignore`.
@@ -457,43 +500,53 @@ FLASK_ENV=development
 
 ---
 
-## Deployment (Render.com)
+## Deployment
 
-The `render.yaml` file is pre-configured for deployment on [Render](https://render.com):
+### Render.com
+
+The `render.yaml` is pre-configured:
 
 ```bash
-# Build Command (runs automatically on Render):
-pip install -r requirements.txt && \
+# Build command (Render runs automatically):
+pip install -e ".[backend,streamlit]" && \
 python -m spacy download en_core_web_sm && \
 python backend/train_model.py && \
 npm --prefix frontend install && \
 npm --prefix frontend run build
 
-# Start Command:
+# Start command:
 gunicorn backend.app:app --bind 0.0.0.0:$PORT
 ```
 
+### Streamlit Cloud
+
+Deploy `streamlit/review_app.py` separately. Set these secrets in the Streamlit dashboard:
+```
+API_URL = https://your-render-backend.onrender.com/api/v2
+DB_PATH = /path/to/careercast.db
+```
+
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for full deployment guides.
+
 ---
 
-## Adding More Data
-
-To improve model accuracy, add more resume samples to `dataset/resumes_dataset.csv`:
+## Adding More Training Data
 
 ```csv
+# dataset/resumes_dataset.csv
 text,label
 "Your resume text here...",Software Engineer
 ```
 
-Then re-run training:
-
+Then re-train:
 ```bash
 python backend/train_model.py
 ```
 
-The best model will be automatically re-selected based on new metrics.
+The best model is automatically re-selected based on updated metrics.
 
 ---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.

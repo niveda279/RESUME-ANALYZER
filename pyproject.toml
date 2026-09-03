@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "careercast"
+version = "4.0.0"
+description = "AI-powered resume analyzer and career prediction toolkit"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "CareerCast Team", email = "support@careercast.ai" }]
+keywords = ["career", "resume", "machine-learning", "nlp", "skill-gap"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "click>=8.1.0",
+    "scikit-learn>=1.3.0",
+    "joblib>=1.3.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+backend = [
+    "flask>=3.0.0",
+    "flask-cors>=4.0.0",
+    "pyjwt>=2.8.0",
+    "werkzeug>=3.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "python-multipart>=0.0.6",
+    "pypdf>=4.0.0",
+    "python-docx>=1.1.0",
+    "spacy>=3.7.0",
+    "mlflow>=2.5.0",
+    "xgboost>=2.0.0",
+    "reportlab>=4.0.0",
+    "httpx>=0.24.0",
+]
+streamlit = [
+    "streamlit>=1.25.0",
+    "reportlab>=4.0.0",
+    "altair>=5.0.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "httpx>=0.24.0",
+]
+all = ["careercast[backend,streamlit,dev]"]
+
+[project.scripts]
+careercast = "careercast.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/careercast/resume-analyzer"
+Documentation = "https://github.com/careercast/resume-analyzer/tree/main/docs"
+Repository = "https://github.com/careercast/resume-analyzer"
+Issues = "https://github.com/careercast/resume-analyzer/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["careercast*"]
+
+[tool.setuptools.package-data]
+careercast = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["careercast", "backend"]
+omit = ["tests/*", "*/migrations/*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
